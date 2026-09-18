@@ -6,12 +6,26 @@ import { loadFragment } from '../fragment/fragment.js';
  * @param {Element} block The footer block element
  */
 export default async function decorate(block) {
-  // load footer as fragment. Resolve /content first (localhost / aem up),
-  // then root (DA/EDS production) so the WKND fragment is preferred over any
-  // proxied default at the root path.
+  // load footer as fragment. If a `footer` metadata override is set, use it.
+  // Otherwise resolve locale-aware: a per-site footer (/{cc}/{ll}/footer, e.g.
+  // the Canada-specific footer) with a global /footer fallback. /content first
+  // for localhost/aem-up, then root for DA/EDS production.
   const footerMeta = getMetadata('footer');
-  const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-  const fragment = await loadFragment(`/content${footerPath}`) || await loadFragment(footerPath);
+  let fragment = null;
+  if (footerMeta) {
+    const p = new URL(footerMeta, window.location).pathname;
+    fragment = await loadFragment(`/content${p}`) || await loadFragment(p);
+  } else {
+    const m = window.location.pathname.match(/^\/([a-z]{2})\/([a-z]{2})(?:\/|$)/);
+    const loc = m ? `/${m[1]}/${m[2]}` : '';
+    const paths = [];
+    if (loc) paths.push(`${loc}/footer`);
+    paths.push('/footer');
+    for (let i = 0; i < paths.length && !fragment; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      fragment = await loadFragment(`/content${paths[i]}`) || await loadFragment(paths[i]);
+    }
+  }
 
   // decorate footer DOM
   block.textContent = '';

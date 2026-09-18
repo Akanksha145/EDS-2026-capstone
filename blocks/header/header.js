@@ -6,10 +6,21 @@ const isDesktop = window.matchMedia('(min-width: 900px)');
  * /content first (localhost / aem up), then root (DA/EDS production).
  */
 async function fetchNavHtml() {
-  let resp = await fetch('/content/nav.plain.html');
-  if (!resp.ok) resp = await fetch('/nav.plain.html');
-  if (!resp.ok) return '';
-  return resp.text();
+  // Locale-aware: each site/locale can have its own nav fragment
+  // (/{cc}/{ll}/nav). Fall back to the global /nav (the "coming soon" stub
+  // nav with no section links). /content first for localhost/aem-up, then root.
+  const m = window.location.pathname.match(/^\/([a-z]{2})\/([a-z]{2})(?:\/|$)/);
+  const loc = m ? `/${m[1]}/${m[2]}` : '';
+  const candidates = [];
+  if (loc) candidates.push(`/content${loc}/nav.plain.html`, `${loc}/nav.plain.html`);
+  candidates.push('/content/nav.plain.html', '/nav.plain.html');
+  for (let i = 0; i < candidates.length; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    const resp = await fetch(candidates[i]);
+    // eslint-disable-next-line no-await-in-loop
+    if (resp.ok) return resp.text();
+  }
+  return '';
 }
 
 /**
@@ -57,7 +68,9 @@ function buildSearch() {
  */
 function flagFor(href) {
   const seg = (href || '').replace(/^\//, '').split('/')[0].toUpperCase();
-  const known = { US: 'US', CA: 'CA', CH: 'CH', DE: 'DE', FR: 'FR', ES: 'ES', IT: 'IT' };
+  const known = {
+    US: 'US', CA: 'CA', CH: 'CH', DE: 'DE', FR: 'FR', ES: 'ES', IT: 'IT',
+  };
   return known[seg] ? `/icons/flags/${known[seg]}.svg` : '';
 }
 
