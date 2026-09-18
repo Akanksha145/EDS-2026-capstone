@@ -44,11 +44,18 @@ export default async function decorate(block) {
     }
   });
 
-  // Tag the fragment sections in order so CSS can target them:
-  // [0] brand logo, [1] nav links, [2] Follow Us + social, [3] legal/copyright.
-  const parts = ['footer-brand', 'footer-nav', 'footer-social', 'footer-legal'];
-  [...footer.children].forEach((section, i) => {
-    if (parts[i]) section.classList.add(parts[i]);
+  // Tag the fragment sections by content (not position) so both the full
+  // footer (brand + nav + social + legal) and the coming-soon stub footer
+  // (brand + social + legal, no nav) tag correctly:
+  //  - social: the "Follow Us" section (has an <h4>)
+  //  - brand:  the logo section (has an <img>)
+  //  - nav:    a bare link list (a <ul>, no <h4>)
+  //  - legal:  everything else (copyright text)
+  [...footer.children].forEach((section) => {
+    if (section.querySelector('h4')) section.classList.add('footer-social');
+    else if (section.querySelector('img')) section.classList.add('footer-brand');
+    else if (section.querySelector('ul')) section.classList.add('footer-nav');
+    else section.classList.add('footer-legal');
   });
 
   block.append(footer);
