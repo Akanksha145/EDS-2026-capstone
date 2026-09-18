@@ -258,6 +258,14 @@ header nav .nav-search input {
     display: none;
   }
 
+  /* Utility bar: dark band stays full-bleed, but its content aligns to the
+     same centered 1264px column as the main bar (so Sign In / locale line up
+     with the search below). calc = the centered column's gutter + 32px pad. */
+  header nav .nav-utility {
+    padding-right: max(32px, calc((100% - 1264px) / 2 + 32px));
+    padding-left: max(32px, calc((100% - 1264px) / 2 + 32px));
+  }
+
   /* locale dropdown: compact popover on desktop */
   header nav .nav-locale-list[aria-hidden='false'] {
     left: auto;
@@ -318,6 +326,7 @@ header nav .nav-search input {
 
   header nav .nav-sections li a {
     width: auto;
+
     /* padding gives the yellow hover/active highlight room around the label,
        matching the source's pill-style highlight */
     padding: 6px 10px;
