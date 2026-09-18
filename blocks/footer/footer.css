@@ -69,11 +69,15 @@ footer .footer-brand img {
   filter: brightness(0) invert(1);
 }
 
-/* Footer nav links — 14px uppercase, no underline, light. */
+/* Footer nav links — 14px uppercase, no underline, light. Source lays them out
+   in a single horizontal row. */
 footer .footer-nav ul {
   list-style: none;
   margin: 16px 0 0;
   padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 24px;
 }
 
 footer .footer-nav li {
