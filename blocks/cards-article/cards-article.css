@@ -1,0 +1,94 @@
+/* Block: cards-article -- values extracted from source computed styles
+   (https://wknd.site/us/en.html .image-list.list). Do not replace with generic defaults. */
+
+/* Index-driven loading state: reserve space so index-fetched cards don't cause
+   a layout shift / empty flash on first paint. */
+.cards-article[data-loading='true'] {
+  min-height: 260px;
+}
+
+.cards-article > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+/* Card. Source: content-box, flex: 0 1 260px, 14px right gutter, 32px row gap.
+   Mobile-first: full-width single column, switch to fixed 260px cards at desktop. */
+.cards-article > ul > li {
+  box-sizing: border-box;
+  flex: 1 1 100%;
+
+  /* Without this, flex items keep their default min-width:auto and refuse to
+     shrink below the card image's intrinsic width, forcing horizontal page
+     overflow at mobile widths. */
+  min-width: 0;
+  margin-bottom: 32px;
+  background-color: var(--background-color);
+}
+
+/* Image: 260 x 200 in source => aspect-ratio 13/10, object-fit cover, full width. */
+.cards-article .cards-article-card-image {
+  line-height: 0;
+}
+
+.cards-article .cards-article-card-image img {
+  width: 100%;
+  aspect-ratio: 13 / 10;
+  object-fit: cover;
+}
+
+/* Text container. Source gap image -> title ~9px. */
+.cards-article .cards-article-card-body {
+  margin: 5px 0 0;
+}
+
+/* Title. Source: visible span is Source Sans Pro 18px/27px, weight 600,
+   uppercase, color #202020, no underline (the wrapping <a> is recolored to match). */
+.cards-article .cards-article-card-body h3 {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  line-height: 27px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.cards-article .cards-article-card-body h3 a:any-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.cards-article .cards-article-card-body h3 a:hover {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* Description. Source: Source Sans Pro 14px/21px, uppercase, gray #696969,
+   16px top margin, single-line ellipsis truncation. */
+.cards-article .cards-article-card-body p {
+  margin: 16px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: rgb(105 105 105);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (width >= 900px) {
+  /* Desktop matches source exactly: content-box 260px card + 14px right gutter
+     => ~4 cards per row inside the 1200px section container. */
+  .cards-article > ul > li {
+    box-sizing: content-box;
+    flex: 0 1 260px;
+    width: 260px;
+    padding-right: 14px;
+  }
+}

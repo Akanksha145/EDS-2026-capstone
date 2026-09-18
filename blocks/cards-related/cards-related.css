@@ -1,0 +1,21 @@
+.cards-related > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards-related > ul > li {
+  padding: 16px 0;
+  border-bottom: 1px solid #dadada;
+}
+
+.cards-related .cards-related-card-body {
+  margin: 0;
+}
+
+.cards-related .cards-related-card-body a {
+  font-weight: 700;
+  text-transform: uppercase;
+}

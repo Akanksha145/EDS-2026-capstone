@@ -1,0 +1,10 @@
+{
+  "variantName": "accordion-faq",
+  "baseBlock": "accordion",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Vertical list of expandable question rows. Each question shows a bold label with a +/- toggle indicator; clicking expands to reveal the answer below. Rows separated by thin dividers.",
+  "contentPattern": "One row per Q&A. First cell is the question (summary label), second cell is the answer body.",
+  "usage": "FAQ or Q&A sections where each question expands to reveal its answer.",
+  "options": [],
+  "memberVariantIds": ["accordion-faq"]
+}

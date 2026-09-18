@@ -1,0 +1,14 @@
+{
+  "type": "da",
+  "sites": {
+    "eds-2026-capstone": {
+      "previewOrg": "akanksha145",
+      "previewSite": "eds-2026-capstone",
+      "contentHostUrl": "https://content.da.live/akanksha145/eds-2026-capstone/",
+      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json"
+    }
+  },
+  "features": [
+    "site-planning"
+  ]
+}

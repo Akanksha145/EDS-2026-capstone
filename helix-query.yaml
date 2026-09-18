@@ -1,0 +1,45 @@
+# helix-query.yaml — query-index definition for the WKND migration.
+#
+# NOTE (platform): This is a DA (Document Authoring) project. On the current
+# Edge Delivery platform the indexer is configured in the site config at
+# tools.aem.live, and helix-query.yaml is NOT read from the repo (it is a
+# retired Helix-era file). This file is committed as an in-repo reference /
+# source-of-truth for that index definition and for portability if the site is
+# ever run on a Helix-style setup. To actually (re)build the index, enter the
+# equivalent definition in the tools.aem.live site config and publish.
+#
+# The index feeds the `cards-article` block (index-driven mode) and every
+# listing surface built on it: the magazine & adventures listings and the
+# home-page article rails. Those blocks read these row fields:
+#   path, title, description, image, lastModified
+version: 1
+
+indices:
+  # Primary content index. Served as /query-index.json on the content bus.
+  default:
+    include:
+      - '/**'
+    exclude:
+      # Nav/footer fragments are not listable pages.
+      - '/nav'
+      - '/footer'
+      # Section/metadata helpers, if any, should not surface as cards.
+      - '/drafts/**'
+    target: /query-index.json
+    properties:
+      title:
+        select: head > meta[property="og:title"]
+        value: |
+          attribute(el, 'content')
+      description:
+        select: head > meta[name="description"]
+        value: |
+          attribute(el, 'content')
+      image:
+        select: head > meta[property="og:image"]
+        value: |
+          attribute(el, 'content')
+      lastModified:
+        select: none
+        value: |
+          parseTimestamp(headers('last-modified'), 'ddd, DD MMM YYYY hh:mm:ss GMT')

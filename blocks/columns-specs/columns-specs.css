@@ -1,0 +1,27 @@
+.columns-specs {
+  display: flex;
+  flex-direction: column;
+}
+
+/* each spec: label above value, with a divider between rows */
+.columns-specs .columns-specs-row {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0 12px 16px;
+  border-left: 2px solid var(--light-color);
+}
+
+.columns-specs .columns-specs-row + .columns-specs-row {
+  border-top: 1px solid var(--light-color);
+}
+
+.columns-specs .columns-specs-label {
+  font-size: var(--body-font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.columns-specs .columns-specs-value {
+  font-weight: 700;
+  text-transform: uppercase;
+}

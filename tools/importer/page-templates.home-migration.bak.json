@@ -1,0 +1,112 @@
+{
+  "templates": [
+    {
+      "name": "home",
+      "urls": [
+        "https://wknd.site/us/en.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en.html",
+      "description": "",
+      "blocks": [
+        {
+          "name": "carousel-hero",
+          "instances": [
+            ".carousel.cmp-carousel--hero"
+          ]
+        },
+        {
+          "name": "columns-featured",
+          "instances": [
+            ".teaser.cmp-teaser--featured"
+          ]
+        },
+        {
+          "name": "cards-article",
+          "instances": [
+            ".image-list.list"
+          ]
+        },
+        {
+          "name": "hero-banner",
+          "instances": [
+            ".teaser.cmp-teaser--hero.cmp-teaser--imagebottom"
+          ]
+        }
+      ],
+      "urlPattern": "/us/*",
+      "sections": [
+        {
+          "id": "s1",
+          "name": "Hero Carousel",
+          "selector": [
+            ".carousel.cmp-carousel--hero"
+          ],
+          "style": null,
+          "blocks": [
+            "carousel-hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "s2",
+          "name": "Featured Article",
+          "selector": [
+            ".teaser.cmp-teaser--featured"
+          ],
+          "style": "featured",
+          "blocks": [
+            "columns-featured"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "s3",
+          "name": "Recent Articles",
+          "selector": [
+            ".cmp-layout-container--fixed:nth-of-type(1) .image-list.list",
+            ".image-list.list"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-article"
+          ],
+          "defaultContent": [
+            ".cmp-layout-container--fixed:nth-of-type(1) .title.cmp-title--underline",
+            ".cmp-layout-container--fixed:nth-of-type(1) .button"
+          ]
+        },
+        {
+          "id": "s4",
+          "name": "Next Adventures - Climbing New Zealand",
+          "selector": [
+            ".teaser.cmp-teaser--hero.cmp-teaser--imagebottom"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-banner"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "s5",
+          "name": "Where do you want to go",
+          "selector": [
+            ".cmp-layout-container--fixed:nth-of-type(2) .image-list.list",
+            ".image-list.list"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-article"
+          ],
+          "defaultContent": [
+            ".cmp-layout-container--fixed:nth-of-type(2) .title",
+            ".cmp-layout-container--fixed:nth-of-type(2) .button"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "projectType": "da"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "variantName": "cards-article",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Responsive grid of borderless article cards, image on top with a title and short description below. Cards auto-fill the row and wrap on smaller screens.",
+  "contentPattern": "Two modes: (1) STATIC — one row per card (image cell + text cell). (2) INDEX-DRIVEN — config rows (Source: <path-prefix>, Limit: <n>, Sort: <field|-field>) that fetch /query-index.json and render cards dynamically.",
+  "usage": {
+    "pagesUsing": [
+      "/ca/en/adventures"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-09-17"
+  },
+  "options": [
+    "index-driven"
+  ],
+  "memberVariantIds": [
+    "cards-article"
+  ]
+}
