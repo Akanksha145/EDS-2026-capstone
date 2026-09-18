@@ -262,8 +262,8 @@ header nav .nav-search input {
      same centered 1264px column as the main bar (so Sign In / locale line up
      with the search below). calc = the centered column's gutter + 32px pad. */
   header nav .nav-utility {
-    padding-right: max(32px, calc((100% - 1264px) / 2 + 32px));
-    padding-left: max(32px, calc((100% - 1264px) / 2 + 32px));
+    padding-right: max(32px, calc((100% - 1264px) / 2));
+    padding-left: max(32px, calc((100% - 1264px) / 2));
   }
 
   /* locale dropdown: compact popover on desktop */
