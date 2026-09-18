@@ -34,4 +34,17 @@ export default function decorate(block) {
   });
   block.textContent = '';
   block.append(ul);
+
+  // Contributors are imported as one single-card cards-profile block per person.
+  // Merge consecutive cards-profile blocks so they share one grid (source shows a
+  // row of cards). A non-cards-profile block between groups (e.g. the "WKND Guides"
+  // heading) breaks the run, keeping the two groups as separate grids.
+  const wrapper = block.closest('.cards-profile-wrapper') || block;
+  const prevWrapper = wrapper.previousElementSibling;
+  const prevBlock = prevWrapper && prevWrapper.querySelector(':scope > .cards-profile');
+  const prevUl = prevBlock && prevBlock.querySelector(':scope > ul');
+  if (prevUl) {
+    [...ul.children].forEach((li) => prevUl.append(li));
+    wrapper.remove();
+  }
 }

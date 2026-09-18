@@ -84,6 +84,39 @@ function findBlocksOnPage(document, template) {
   return pageBlocks;
 }
 
+/**
+ * Merge consecutive sibling blocks of the same name (matched by the block's
+ * first-row block-name cell) into a single block, appending each subsequent
+ * block's card rows. Only merges blocks that are adjacent among element
+ * siblings (ignoring whitespace text nodes), so a heading/paragraph between
+ * groups keeps them as separate blocks.
+ */
+function mergeAdjacentBlocks(document, main, blockName) {
+  // helix-importer createTable appends <tr> rows directly to <table> (no tbody);
+  // the first row is the block-name header (<th>).
+  const isBlock = (el) => el
+    && el.nodeType === 1
+    && el.tagName === 'TABLE'
+    && (el.querySelector('th, td')?.textContent || '').trim().toLowerCase() === blockName;
+
+  const blocks = [...main.querySelectorAll('table')].filter(isBlock);
+  const consumed = new Set();
+
+  blocks.forEach((first) => {
+    if (consumed.has(first) || !first.parentNode) return;
+    let next = first.nextElementSibling;
+    while (isBlock(next)) {
+      // append this block's data rows (all <tr> after its header row) to `first`
+      const rows = [...next.children].filter((c) => c.tagName === 'TR');
+      rows.slice(1).forEach((row) => first.appendChild(row));
+      consumed.add(next);
+      const toRemove = next;
+      next = next.nextElementSibling;
+      toRemove.remove();
+    }
+  });
+}
+
 export default {
   transform: (payload) => {
     const {
@@ -111,6 +144,13 @@ export default {
     });
 
     executeTransformers('afterTransform', main, payload);
+
+    // Merge adjacent cards-profile blocks into one multi-card block so
+    // contributors form a grid row (source layout) instead of stacking as
+    // separate single-card blocks. A non-cards-profile element between two
+    // blocks (e.g. the "WKND Guides" heading) breaks the run, so the two
+    // groups stay separate — matching the source's two grids.
+    mergeAdjacentBlocks(document, main, 'cards-profile');
 
     const hr = document.createElement('hr');
     main.appendChild(hr);

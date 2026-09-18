@@ -264,6 +264,23 @@ var CustomImportScript = (() => {
     console.log(`Found ${pageBlocks.length} block instances on page`);
     return pageBlocks;
   }
+  function mergeAdjacentBlocks(document2, main, blockName) {
+    const isBlock = (el) => el && el.nodeType === 1 && el.tagName === "TABLE" && (el.querySelector("th, td")?.textContent || "").trim().toLowerCase() === blockName;
+    const blocks = [...main.querySelectorAll("table")].filter(isBlock);
+    const consumed = /* @__PURE__ */ new Set();
+    blocks.forEach((first) => {
+      if (consumed.has(first) || !first.parentNode) return;
+      let next = first.nextElementSibling;
+      while (isBlock(next)) {
+        const rows = [...next.children].filter((c) => c.tagName === "TR");
+        rows.slice(1).forEach((row) => first.appendChild(row));
+        consumed.add(next);
+        const toRemove = next;
+        next = next.nextElementSibling;
+        toRemove.remove();
+      }
+    });
+  }
   var import_profile_grid_default = {
     transform: (payload) => {
       const {
@@ -289,6 +306,7 @@ var CustomImportScript = (() => {
         }
       });
       executeTransformers("afterTransform", main, payload);
+      mergeAdjacentBlocks(document2, main, "cards-profile");
       const hr = document2.createElement("hr");
       main.appendChild(hr);
       WebImporter.rules.createMetadata(main, document2);
