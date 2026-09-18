@@ -1,6 +1,11 @@
+/* WKND footer — values from source computed styles (wknd.site footer):
+   dark band #202020, light text #ebebeb, Source Sans Pro. */
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+  background-color: #202020;
+  color: #ebebeb;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);
+  line-height: 27px;
 }
 
 footer .footer > div {
@@ -9,12 +14,157 @@ footer .footer > div {
   padding: 40px 24px 24px;
 }
 
+@media (width >= 900px) {
+  footer .footer > div {
+    /* Source top region is a horizontal row: logo | nav | Follow Us, with the
+       legal block spanning full width below. */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0 48px;
+    padding: 40px 32px 24px;
+  }
+
+  footer .footer-brand {
+    flex: 0 0 auto;
+  }
+
+  footer .footer-nav {
+    flex: 1 1 auto;
+    padding: 0 24px;
+  }
+
+  footer .footer-nav ul {
+    margin: 0;
+  }
+
+  footer .footer-social {
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+
+  footer .footer-social h4 {
+    margin-top: 0;
+  }
+
+  /* legal spans the full width beneath the top row */
+  footer .footer-legal {
+    flex: 1 0 100%;
+  }
+}
+
 footer .footer p {
   margin: 0;
 }
 
-@media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
-  }
+/* Brand logo — source renders a light (white) logo 128px wide on the dark
+   band. The project logo is dark-filled, so invert it to white. */
+footer .footer-brand p {
+  margin: 0;
+}
+
+footer .footer-brand img {
+  width: 128px;
+  height: auto;
+  filter: brightness(0) invert(1);
+}
+
+/* Footer nav links — 14px uppercase, no underline, light. Source lays them out
+   in a single horizontal row. */
+footer .footer-nav ul {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 24px;
+}
+
+footer .footer-nav li {
+  margin: 0;
+}
+
+footer .footer-nav a:any-link {
+  color: #ebebeb;
+  font-size: 14px;
+  line-height: 27px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+footer .footer-nav a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Follow Us heading — h4, 16px/600 uppercase, light. */
+footer .footer-social h4 {
+  margin: 21px 0;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 27px;
+  text-transform: uppercase;
+  color: #ebebeb;
+}
+
+/* Social links — horizontal row. */
+footer .footer-social ul {
+  display: flex;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Social links — icon glyphs. Source uses an icon font (wknd-icon-font); we
+   render inline SVG icons instead. Hide the text label (kept for a11y) and
+   show a 24px white icon per platform, matched by href. */
+footer .footer-social a:any-link {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  font-size: 0;
+  color: transparent;
+  text-decoration: none;
+  background: no-repeat center / 22px 22px;
+}
+
+footer .footer-social a[href*='facebook' i] {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ebebeb"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H7.3V13h2.6v8h3.6z"/></svg>');
+}
+
+footer .footer-social a[href*='twitter' i] {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ebebeb"><path d="M22 5.9c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.3 1.7-2.2-.8.5-1.7.8-2.6 1a4.1 4.1 0 0 0-7 3.7A11.6 11.6 0 0 1 3.4 4.7a4.1 4.1 0 0 0 1.3 5.5c-.7 0-1.3-.2-1.9-.5v.1c0 2 1.4 3.6 3.3 4-.6.2-1.3.2-1.9.1a4.1 4.1 0 0 0 3.8 2.9A8.2 8.2 0 0 1 2 18.6a11.6 11.6 0 0 0 6.3 1.8c7.5 0 11.7-6.3 11.7-11.7v-.5c.8-.6 1.5-1.3 2-2.1z"/></svg>');
+}
+
+footer .footer-social a[href*='instagram' i] {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23ebebeb" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="%23ebebeb" stroke="none"/></svg>');
+}
+
+footer .footer-social a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Legal / copyright block — 12px/15px, near-white, underlined links.
+   Divider is a top border on the block itself (the source's <hr> was removed
+   from the fragment because EDS treats an in-block <hr> as a section split). */
+footer .footer-legal {
+  margin-top: 24px;
+  padding-top: 9px;
+  border-top: 1px solid rgb(235 235 235 / 30%);
+  color: #f7f7f7;
+}
+
+footer .footer-legal p {
+  margin: 0 0 13.5px;
+  font-size: 12px;
+  line-height: 15px;
+  color: #f7f7f7;
+}
+
+footer .footer-legal a:any-link {
+  color: #f7f7f7;
+  text-decoration: underline;
 }

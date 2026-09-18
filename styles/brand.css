@@ -1,0 +1,45 @@
+/* WKND brand tokens — extracted from https://wknd.site/us/en.html */
+:root {
+  /* fonts */
+  --heading-font-family: "Asar", georgia, "Times New Roman", times, serif;
+  --body-font-family: "Source Sans Pro", "Helvetica Neue", helvetica, arial, sans-serif;
+
+  /* colors */
+  --background-color: #fff;
+  --text-color: #202020;
+  --link-color: #0045ff;
+  --link-hover-color: #0037cc;
+
+  /* section variants */
+  --light-color: #f2f2f2;
+  --dark-color: #000;
+
+  /* WKND signature accent (yellow CTA) */
+  --accent-color: #ffea00;
+  --accent-text-color: #202020;
+
+  /* spacing */
+  --section-padding: 10px;
+  /* taller white nav bar to match source proportions (logo 48px centered with
+     generous vertical breathing room) */
+  --nav-height: 114px;
+
+  /* line-heights (from source computed styles) */
+  --body-line-height: 1.5;      /* body/blockquote: 27/18 */
+  --heading-line-height: 1.5;   /* h1-h6: 60/40, 54/36, 24/16 */
+  --paragraph-line-height: 2.5; /* WKND airy body copy: 45/18 */
+
+  /* vertical rhythm (source margins ~1.5em / 0.75em at 18px base) */
+  --heading-margin-top: 1.5em;
+  --heading-margin-bottom: 0.75em;
+  --paragraph-margin-bottom: 0.75em;
+
+  /* heading sizes (desktop) — source's exact px per tier, measured from
+     wknd.site main-scoped h1-h6 (line-height is a consistent 1.5x each). */
+  --heading-size-xxl: 40px;  /* h1: 40/60 */
+  --heading-size-xl: 36px;   /* h2: 36/54 */
+  --heading-size-l: 24px;    /* h3: 24/36 */
+  --heading-size-m: 16px;    /* h4: 16/24 */
+  --heading-size-s: 14px;    /* h5: 14/21 */
+  --heading-size-xs: 10px;   /* h6: 10/15 */
+}

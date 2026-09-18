@@ -1,0 +1,56 @@
+.accordion-faq details {
+  border-bottom: 1px solid #dadada;
+}
+
+.accordion-faq details p {
+  margin-bottom: 0.8em;
+}
+
+.accordion-faq details summary {
+  position: relative;
+  padding: 16px 46px 16px 0;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700;
+  transition: background-color 0.2s;
+}
+
+.accordion-faq details summary:focus,
+.accordion-faq details summary:hover {
+  color: var(--link-color);
+}
+
+.accordion-faq details summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-faq details summary::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 2px;
+  background-color: currentcolor;
+}
+
+.accordion-faq details summary::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 14px;
+  background-color: currentcolor;
+  transition: opacity 0.2s;
+}
+
+.accordion-faq details[open] summary::before {
+  opacity: 0;
+}
+
+.accordion-faq details .accordion-faq-item-body {
+  padding: 0 0 16px;
+}

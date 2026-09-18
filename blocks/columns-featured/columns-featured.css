@@ -1,0 +1,180 @@
+/* columns-featured — WKND featured article teaser
+   Values extracted from source computed styles: https://wknd.site/us/en.html
+   (.teaser.cmp-teaser--featured). See migration-work/columns-featured-extracted.css */
+
+/* Source keeps the page white around this teaser and greys only the text card
+   (below). Cancel the full-bleed grey band that section-metadata's .featured
+   would otherwise paint edge-to-edge behind this block. */
+main .section.featured:has(.columns-featured) {
+  background-color: var(--background-color);
+  padding: 0;
+  margin: 40px 0;
+}
+
+/* Row: image cell + text cell. Mobile-first = stacked. */
+.columns-featured > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Image cell (first in decorated DOM) */
+.columns-featured .columns-featured-img-col {
+  padding: 0;
+}
+
+.columns-featured .columns-featured-img-col picture {
+  display: block;
+  line-height: 0;
+}
+
+.columns-featured img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 709 / 509;
+  object-fit: cover;
+}
+
+/* Text cell — grey card. Source puts the light-grey (#ebebeb) ONLY on the
+   text content card, not a full-width band; the image and surrounding page
+   stay white. */
+.columns-featured > div > div:not(.columns-featured-img-col) {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 24px;
+  background-color: #ebebeb;
+}
+
+/* Eyebrow / pretitle ("Featured Article") — first paragraph */
+.columns-featured > div > div:not(.columns-featured-img-col) > p:first-child {
+  margin: 0 0 13.5px;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-color);
+}
+
+/* Title */
+.columns-featured h2 {
+  margin: 18px 0;
+  font-family: var(--heading-font-family);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 54px;
+  color: var(--text-color);
+}
+
+/* Description — remaining paragraphs (not eyebrow, not CTA wrapper) */
+.columns-featured > div > div:not(.columns-featured-img-col) > p:not(:first-child) {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24.5px;
+  color: var(--text-color);
+}
+
+/* CTA — the standalone link, styled as the WKND yellow button.
+   In this variant EDS does not auto-decorate it as .button. */
+.columns-featured > div > div:not(.columns-featured-img-col) > p:last-child {
+  margin: 18px 0 0;
+}
+
+.columns-featured a:any-link {
+  display: inline-block;
+  padding: 14px 35px;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--accent-color);
+  color: var(--accent-text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.columns-featured a:hover,
+.columns-featured a:focus-visible {
+  background-color: var(--text-color);
+  color: var(--background-color);
+  text-decoration: none;
+}
+
+/* Desktop — image left (flex 2), text right (flex 1), no gap.
+   align-items: flex-start lets the image keep its source aspect ratio
+   (709/509) instead of being stretched short to the text-cell height. */
+@media (width >= 900px) {
+  .columns-featured > div {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .columns-featured .columns-featured-img-col {
+    flex: 2 1 0%;
+    min-width: 0;
+  }
+
+  .columns-featured .columns-featured-img-col img {
+    height: auto;
+  }
+
+  .columns-featured > div > div:not(.columns-featured-img-col) {
+    flex: 1 1 0%;
+    min-width: 0;
+    padding: 63px 36px 36px;
+  }
+
+  /* Members-only region (magazine): a section holding more than one
+     columns-featured teaser lays the teasers side by side (2-up), matching
+     source. The section's direct children are the heading wrapper + the two
+     teaser wrappers, so flex the section and let the heading span full width. */
+  .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) > .default-content-wrapper {
+    flex: 1 0 100%;
+  }
+
+  .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) > .columns-featured-wrapper {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* stack image over text within each members-only teaser so two fit per row */
+  .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) .columns-featured > div {
+    flex-direction: column;
+  }
+}
+
+/* Visible separator above the members-only region (source shows a full-width
+   rule between the article list and the members-only teasers). Applies to a
+   columns-featured section that contains a "Members Only" heading. */
+main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) {
+  border-top: 1px solid var(--light-color);
+  padding-top: 40px;
+}
+
+/* Members-only teasers carry no CTA link in the source (the "Read More" is a
+   plain label), so it isn't imported. Render it as a styled label after each
+   members-only teaser's text card to match the source. */
+main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper)
+  .columns-featured > div > div:not(.columns-featured-img-col, :has(a))::after {
+  content: 'Read More';
+  display: inline-block;
+  margin-top: 18px;
+  padding: 14px 35px;
+  background-color: var(--accent-color);
+  color: var(--accent-text-color);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}

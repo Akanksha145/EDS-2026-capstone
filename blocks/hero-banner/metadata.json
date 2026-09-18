@@ -1,0 +1,18 @@
+{
+  "variantName": "hero-banner",
+  "baseBlock": "hero",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Large full-bleed banner with a background photo and a light content card overlaid at the lower-left containing a heading, description, and a single CTA.",
+  "contentPattern": "A background image followed by text content (heading, description, single CTA link). The image becomes the full-bleed background; the text is placed in an overlaid content card.",
+  "usage": {
+    "pagesUsing": [
+      "/ca/en/adventures"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-09-17"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "hero-banner"
+  ]
+}

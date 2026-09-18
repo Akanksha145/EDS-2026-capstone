@@ -1,0 +1,10 @@
+{
+  "variantName": "columns-featured",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Two-column side-by-side layout on a solid grey container with padding. Image on the left, text content (eyebrow label, heading, description, CTA) on the right. Stacks to a single column on small screens.",
+  "contentPattern": "One row with two cells: first cell holds the image, second cell holds the text content (eyebrow, heading, description, single CTA link).",
+  "usage": "Featured article or promo with an image beside a block of text and a call-to-action.",
+  "options": [],
+  "memberVariantIds": ["columns-featured"]
+}

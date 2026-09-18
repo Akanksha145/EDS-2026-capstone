@@ -1,0 +1,60 @@
+.cards-profile > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 40px 24px;
+}
+
+.cards-profile > ul > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: var(--background-color);
+}
+
+/* circular avatar */
+.cards-profile .cards-profile-card-image {
+  line-height: 0;
+  width: 100%;
+}
+
+.cards-profile .cards-profile-card-image img {
+  width: 165px;
+  height: 165px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.cards-profile .cards-profile-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 16px 0 0;
+  width: 100%;
+}
+
+/* row of social/icon links */
+.cards-profile .cards-profile-card-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 16px;
+}
+
+.cards-profile .cards-profile-card-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+
+.cards-profile .cards-profile-card-social a .icon,
+.cards-profile .cards-profile-card-social a img {
+  width: 18px;
+  height: 18px;
+}

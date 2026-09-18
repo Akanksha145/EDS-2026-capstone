@@ -1,0 +1,10 @@
+{
+  "variantName": "columns-specs",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Vertical list of specification rows in a sidebar. Each row shows a small uppercase label above a bold uppercase value, separated by subtle dividers with a left accent border.",
+  "contentPattern": "One row per spec. Each row has two cells: a label cell and a value cell.",
+  "usage": "Detail-page specification sidebar (e.g. activity, trip length, group size, difficulty, price).",
+  "options": [],
+  "memberVariantIds": ["columns-specs"]
+}

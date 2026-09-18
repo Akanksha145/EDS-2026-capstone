@@ -1,0 +1,10 @@
+{
+  "variantName": "tabs-detail",
+  "baseBlock": "tabs",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Horizontal row of tab buttons (e.g. Overview, Itinerary, What to Bring) above a content panel. The selected tab is highlighted; switching tabs swaps the visible panel content.",
+  "contentPattern": "One row per tab. First cell is the tab label; the rest of the row is that tab's panel content (paragraphs, images, links).",
+  "usage": "Detail pages that split body content into switchable tabbed sections.",
+  "options": [],
+  "memberVariantIds": ["tabs-detail"]
+}
