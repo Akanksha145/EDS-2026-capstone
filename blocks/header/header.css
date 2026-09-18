@@ -285,24 +285,37 @@ header nav .nav-search input {
   header nav .nav-sections {
     display: block;
     order: 1;
-    flex: 1 1 auto;
+
+    /* group the links to the right (logo stays left, search follows) — source
+       clusters the nav items rather than stretching them across the bar.
+       margin-left:auto pushes the cluster right; reset the mobile full-bleed
+       negative right margin. */
+    margin: 0 32px 0 auto;
 
     /* reset the mobile collapsed state so the menu is always visible on desktop */
     max-height: none;
     visibility: visible;
-    margin: 0;
     padding: 0;
     overflow: visible;
   }
 
   header nav .nav-sections ul {
     display: flex;
+    align-items: center;
     gap: 32px;
   }
 
   header nav .nav-sections li {
+    /* reset mobile full-width cell so each item is content-width and the links
+       group tightly instead of spreading across the row */
+    width: auto;
     padding: 0;
     font-size: var(--body-font-size-xs);
+    font-weight: 400;
+  }
+
+  header nav .nav-sections li a {
+    width: auto;
   }
 
   /* Source parity: the "Home" link (first item) is not shown in the desktop
