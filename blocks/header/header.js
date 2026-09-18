@@ -50,6 +50,18 @@ function buildSearch() {
 }
 
 /**
+ * Map a locale link href (e.g. /ca/fr) to its country-flag SVG. The first path
+ * segment is the country code; the source shows this flag beside the locale.
+ * @param {string} href
+ * @returns {string} flag asset path, or '' if unknown
+ */
+function flagFor(href) {
+  const seg = (href || '').replace(/^\//, '').split('/')[0].toUpperCase();
+  const known = { US: 'US', CA: 'CA', CH: 'CH', DE: 'DE', FR: 'FR', ES: 'ES', IT: 'IT' };
+  return known[seg] ? `/icons/flags/${known[seg]}.svg` : '';
+}
+
+/**
  * Turns the locale link list into a click-toggle dropdown.
  * @param {Element} localeList the <ul> of locale links
  */
@@ -67,9 +79,20 @@ function decorateLocale(localeList) {
   toggle.className = 'nav-locale-toggle';
   toggle.setAttribute('aria-expanded', 'false');
   toggle.textContent = current ? current.textContent.trim() : 'Language';
+  // Country flag for the current locale (source shows the flag before the code).
+  const currentFlag = current ? flagFor(current.getAttribute('href')) : '';
+  if (currentFlag) toggle.style.backgroundImage = `url('${currentFlag}')`;
 
   localeList.classList.add('nav-locale-list');
   localeList.setAttribute('aria-hidden', 'true');
+  // Flag on each dropdown option too.
+  localeList.querySelectorAll('a').forEach((a) => {
+    const flag = flagFor(a.getAttribute('href'));
+    if (flag) {
+      a.classList.add('nav-locale-flag');
+      a.style.backgroundImage = `url('${flag}')`;
+    }
+  });
 
   toggle.addEventListener('click', () => {
     const open = toggle.getAttribute('aria-expanded') === 'true';

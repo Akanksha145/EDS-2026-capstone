@@ -56,8 +56,9 @@ header nav .nav-locale {
 header nav .nav-locale-toggle {
   margin: 0;
   border: 0;
-  padding: 0;
-  background: none;
+  /* room for the country flag shown as a left-aligned background image */
+  padding: 0 0 0 32px;
+  background: none no-repeat left center / 24px auto;
   color: inherit;
   font: inherit;
   text-transform: inherit;
@@ -101,6 +102,13 @@ header nav .nav-locale-list[aria-hidden='false'] {
 
 header nav .nav-locale-list li {
   padding: 6px 16px;
+}
+
+/* dropdown option flag: shown left of the locale code */
+header nav .nav-locale-list a.nav-locale-flag {
+  display: block;
+  padding-left: 30px;
+  background: no-repeat left center / 22px auto;
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
