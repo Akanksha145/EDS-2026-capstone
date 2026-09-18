@@ -4,6 +4,7 @@
 // PARSER IMPORTS
 import cardsProfileParser from './parsers/cards-profile.js';
 import cardsArticleParser from './parsers/cards-article.js';
+import columnsFeaturedParser from './parsers/columns-featured.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/wknd-cleanup.js';
@@ -13,6 +14,7 @@ import sectionsTransformer from './transformers/wknd-sections.js';
 const parsers = {
   'cards-profile': cardsProfileParser,
   'cards-article': cardsArticleParser,
+  'columns-featured': columnsFeaturedParser,
 };
 
 // PAGE TEMPLATE CONFIGURATION - Embedded from page-templates.json
@@ -23,6 +25,10 @@ const PAGE_TEMPLATE = {
     'https://wknd.site/ca/en/about-us.html',
   ],
   blocks: [
+    {
+      name: 'columns-featured',
+      instances: ['.teaser.cmp-teaser--featured'],
+    },
     {
       name: 'cards-profile',
       instances: ['.buildingblock.cmp-buildingblock--btn-list'],
