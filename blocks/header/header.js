@@ -149,8 +149,17 @@ export default async function decorate(block) {
   if (navSections) {
     const sectionsList = navSections.querySelector('ul');
     if (sectionsList) sectionsList.classList.add('nav-list');
+    // Mark the nav item matching the current page so it gets the active
+    // (yellow) highlight, matching the source's selected-state behavior.
+    const here = window.location.pathname.replace(/\.html$/, '').replace(/\/$/, '');
     navSections.querySelectorAll(':scope > ul > li > a').forEach((a) => {
       a.classList.add('nav-trigger');
+      const href = (a.getAttribute('href') || '').replace(/\.html$/, '').replace(/\/$/, '');
+      // active when the current path is (or is under) this section, but not
+      // for the Home link, which would otherwise match every page.
+      if (href && here && href !== '/us/en' && (here === href || here.startsWith(`${href}/`))) {
+        a.setAttribute('aria-current', 'page');
+      }
     });
   }
   const mainBar = document.createElement('div');

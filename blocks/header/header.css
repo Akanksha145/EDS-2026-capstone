@@ -318,6 +318,9 @@ header nav .nav-search input {
 
   header nav .nav-sections li a {
     width: auto;
+    /* padding gives the yellow hover/active highlight room around the label,
+       matching the source's pill-style highlight */
+    padding: 6px 10px;
   }
 
   /* Source parity: the "Home" link (first item) is not shown in the desktop
@@ -326,8 +329,13 @@ header nav .nav-search input {
     display: none;
   }
 
-  header nav .nav-sections a:hover {
-    color: var(--link-color);
+  /* Hover + current-page: WKND yellow highlight background (not a link color),
+     matching source .cmp-navigation__item-link:hover / selected state. */
+  header nav .nav-sections a:hover,
+  header nav .nav-sections a:focus-visible,
+  header nav .nav-sections a[aria-current='page'] {
+    background-color: var(--accent-color);
+    color: var(--accent-text-color);
   }
 
   header nav .nav-tools {
