@@ -302,7 +302,8 @@ header nav .nav-search input {
   header nav .nav-sections ul {
     display: flex;
     align-items: center;
-    gap: 32px;
+    /* tight cluster to match source spacing between nav items */
+    gap: 24px;
   }
 
   header nav .nav-sections li {
