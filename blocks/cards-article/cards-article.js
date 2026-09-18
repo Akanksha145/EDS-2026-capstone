@@ -1,6 +1,24 @@
 import { createOptimizedPicture, readBlockConfig } from '../../scripts/aem.js';
 
 /**
+ * Normalize an index image URL to a same-origin path. The query-index bakes
+ * absolute URLs against the production host (main--…aem.live); loading those
+ * from another host (a branch preview) is a cross-origin request that gets
+ * blocked. Strip the origin so the image always loads from the current host.
+ * @param {string} url
+ * @returns {string}
+ */
+function sameOriginImage(url) {
+  if (!url) return url;
+  try {
+    const u = new URL(url, window.location.href);
+    return u.pathname + u.search; // drop origin, keep path + optimization query
+  } catch (e) {
+    return url;
+  }
+}
+
+/**
  * Build a single card <li> from an index entry.
  * @param {object} entry query-index row: { path, title, description, image }
  */
@@ -12,7 +30,7 @@ function cardFromEntry(entry) {
   if (entry.image) {
     const link = document.createElement('a');
     link.href = entry.path;
-    const pic = createOptimizedPicture(entry.image, entry.title || '', false, [{ width: '750' }]);
+    const pic = createOptimizedPicture(sameOriginImage(entry.image), entry.title || '', false, [{ width: '750' }]);
     link.append(pic);
     imageCell.append(link);
   }
