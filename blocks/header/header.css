@@ -286,6 +286,12 @@ header nav .nav-search input {
     display: block;
     order: 1;
     flex: 1 1 auto;
+    /* reset the mobile collapsed state so the menu is always visible on desktop */
+    max-height: none;
+    visibility: visible;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
   }
 
   header nav .nav-sections ul {
