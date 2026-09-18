@@ -92,15 +92,14 @@ footer .footer-social a:hover {
   text-decoration: underline;
 }
 
-/* Legal / copyright block — 12px/15px, near-white, underlined links. */
+/* Legal / copyright block — 12px/15px, near-white, underlined links.
+   Divider is a top border on the block itself (the source's <hr> was removed
+   from the fragment because EDS treats an in-block <hr> as a section split). */
 footer .footer-legal {
-  color: #f7f7f7;
-}
-
-footer .footer-legal hr {
-  margin: 24px 0 9px;
-  border: 0;
+  margin-top: 24px;
+  padding-top: 9px;
   border-top: 1px solid rgb(235 235 235 / 30%);
+  color: #f7f7f7;
 }
 
 footer .footer-legal p {
