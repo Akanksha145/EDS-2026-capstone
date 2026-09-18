@@ -161,3 +161,20 @@ main .section.columns-featured-container:has(.columns-featured-wrapper + .column
   border-top: 1px solid var(--light-color);
   padding-top: 40px;
 }
+
+/* Members-only teasers carry no CTA link in the source (the "Read More" is a
+   plain label), so it isn't imported. Render it as a styled label after each
+   members-only teaser's text card to match the source. */
+main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper)
+  .columns-featured > div > div:not(.columns-featured-img-col):not(:has(a))::after {
+  content: 'Read More';
+  display: inline-block;
+  margin-top: 18px;
+  padding: 14px 35px;
+  background-color: var(--accent-color);
+  color: var(--accent-text-color);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
