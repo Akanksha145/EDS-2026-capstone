@@ -16,8 +16,23 @@ footer .footer > div {
 
 @media (width >= 900px) {
   footer .footer > div {
+    /* Source top region is a horizontal row: logo | nav | Follow Us, with the
+       legal block spanning full width below. */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0 48px;
     padding: 40px 32px 24px;
   }
+
+  footer .footer-brand { flex: 0 0 auto; }
+  footer .footer-nav { flex: 1 1 auto; padding: 0 24px; }
+  footer .footer-nav ul { margin: 0; }
+  footer .footer-social { flex: 0 0 auto; margin-left: auto; }
+  footer .footer-social h4 { margin-top: 0; }
+
+  /* legal spans the full width beneath the top row */
+  footer .footer-legal { flex: 1 0 100%; }
 }
 
 footer .footer p {
