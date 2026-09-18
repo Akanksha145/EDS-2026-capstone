@@ -166,7 +166,7 @@ main .section.columns-featured-container:has(.columns-featured-wrapper + .column
    plain label), so it isn't imported. Render it as a styled label after each
    members-only teaser's text card to match the source. */
 main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper)
-  .columns-featured > div > div:not(.columns-featured-img-col):not(:has(a))::after {
+  .columns-featured > div > div:not(.columns-featured-img-col, :has(a))::after {
   content: 'Read More';
   display: inline-block;
   margin-top: 18px;
