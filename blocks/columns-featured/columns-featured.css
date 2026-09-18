@@ -2,6 +2,15 @@
    Values extracted from source computed styles: https://wknd.site/us/en.html
    (.teaser.cmp-teaser--featured). See migration-work/columns-featured-extracted.css */
 
+/* Source keeps the page white around this teaser and greys only the text card
+   (below). Cancel the full-bleed grey band that section-metadata's .featured
+   would otherwise paint edge-to-edge behind this block. */
+main .section.featured:has(.columns-featured) {
+  background-color: var(--background-color);
+  padding: 0;
+  margin: 40px 0;
+}
+
 /* Row: image cell + text cell. Mobile-first = stacked. */
 .columns-featured > div {
   display: flex;
@@ -26,12 +35,14 @@
   object-fit: cover;
 }
 
-/* Text cell — grey comes from the section's .featured background (section-metadata),
-   matching the source where the whole featured band is grey. */
+/* Text cell — grey card. Source puts the light-grey (#ebebeb) ONLY on the
+   text content card, not a full-width band; the image and surrounding page
+   stay white. */
 .columns-featured > div > div:not(.columns-featured-img-col) {
   display: flex;
   flex-direction: column;
   padding: 40px 24px;
+  background-color: #ebebeb;
 }
 
 /* Eyebrow / pretitle ("Featured Article") — first paragraph */

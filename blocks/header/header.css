@@ -56,6 +56,7 @@ header nav .nav-locale {
 header nav .nav-locale-toggle {
   margin: 0;
   border: 0;
+
   /* room for the country flag shown as a left-aligned background image */
   padding: 0 0 0 32px;
   background: none no-repeat left center / 24px auto;
@@ -248,16 +249,18 @@ header nav .nav-search form {
 header nav .nav-search input {
   box-sizing: border-box;
   border: 0;
-  border-bottom: 1px solid var(--text-color);
-  padding: 4px 4px 4px 24px;
+  /* Source: translucent light-grey field (no underline), ~40px tall, with the
+     magnifier icon inset left. */
+  height: 40px;
+  padding: 1px 12px 1px 36px;
   font: inherit;
   font-size: var(--body-font-size-xs);
-  background: transparent url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23202020" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>') no-repeat left center / 16px;
+  background: rgb(235 235 235 / 54%) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23202020" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>') no-repeat left 12px center / 16px;
 
   /* Shrinkable on very narrow phones (≤320px) so the grid never overflows the
-     viewport; caps at 120px once there's room. */
+     viewport; caps at 166px (source width) once there's room. */
   width: 100%;
-  max-width: 120px;
+  max-width: 166px;
 }
 
 /* --- Desktop --- */
