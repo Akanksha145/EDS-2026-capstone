@@ -173,6 +173,30 @@ function decorateSectionMetadata(main) {
 }
 
 /**
+ * Strips the `.html` extension from internal links. The migrated WKND content
+ * carries source-style links like `/us/en/adventures.html`, but EDS serves
+ * pages at extensionless paths, so those links would 404. Rewrites in place;
+ * leaves external links and non-page assets untouched.
+ * @param {Element} main The main element
+ */
+function decorateLinks(main) {
+  main.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (!href) return;
+    try {
+      const url = new URL(href, window.location.href);
+      // same-origin page links ending in .html -> drop the extension
+      if (url.origin === window.location.origin && url.pathname.endsWith('.html')) {
+        url.pathname = url.pathname.slice(0, -'.html'.length);
+        a.setAttribute('href', url.pathname + url.search + url.hash);
+      }
+    } catch (e) {
+      // ignore malformed hrefs (e.g. "#", "mailto:")
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -184,6 +208,7 @@ export function decorateMain(main) {
   decorateSectionMetadata(main);
   decorateBlocks(main);
   decorateButtons(main);
+  decorateLinks(main);
 }
 
 /**
