@@ -200,7 +200,7 @@ var CustomImportScript = (() => {
     blocks: [
       {
         name: "columns-featured",
-        instances: [".teaser.cmp-teaser--featured"]
+        instances: [".teaser.cmp-teaser--featured", ".teaser.cmp-teaser--list"]
       },
       {
         name: "cards-profile",
@@ -293,6 +293,14 @@ var CustomImportScript = (() => {
       }
     });
   }
+  function insertMembersSeparator(document2, main) {
+    const heading = [...main.querySelectorAll("h1, h2, h3, h4")].find((h) => /members only/i.test(h.textContent || ""));
+    if (!heading) return;
+    const prev = heading.previousElementSibling;
+    if (prev && prev.tagName === "HR") return;
+    const hr = document2.createElement("hr");
+    heading.before(hr);
+  }
   var import_profile_grid_default = {
     transform: (payload) => {
       const {
@@ -319,6 +327,7 @@ var CustomImportScript = (() => {
       });
       executeTransformers("afterTransform", main, payload);
       mergeAdjacentBlocks(document2, main, "cards-profile");
+      insertMembersSeparator(document2, main);
       const hr = document2.createElement("hr");
       main.appendChild(hr);
       WebImporter.rules.createMetadata(main, document2);

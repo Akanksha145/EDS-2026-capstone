@@ -126,4 +126,38 @@ main .section.featured:has(.columns-featured) {
     min-width: 0;
     padding: 63px 36px 36px;
   }
+
+  /* Members-only region (magazine): a section holding more than one
+     columns-featured teaser lays the teasers side by side (2-up), matching
+     source. The section's direct children are the heading wrapper + the two
+     teaser wrappers, so flex the section and let the heading span full width. */
+  .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) > .default-content-wrapper {
+    flex: 1 0 100%;
+  }
+
+  .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) > .columns-featured-wrapper {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* stack image over text within each members-only teaser so two fit per row */
+  .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) .columns-featured > div {
+    flex-direction: column;
+  }
+}
+
+/* Visible separator above the members-only region (source shows a full-width
+   rule between the article list and the members-only teasers). Applies to a
+   columns-featured section that contains a "Members Only" heading. */
+main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) {
+  border-top: 1px solid var(--light-color);
+  padding-top: 40px;
 }

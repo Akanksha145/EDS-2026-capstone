@@ -27,7 +27,7 @@ const PAGE_TEMPLATE = {
   blocks: [
     {
       name: 'columns-featured',
-      instances: ['.teaser.cmp-teaser--featured'],
+      instances: ['.teaser.cmp-teaser--featured', '.teaser.cmp-teaser--list'],
     },
     {
       name: 'cards-profile',
@@ -123,6 +123,22 @@ function mergeAdjacentBlocks(document, main, blockName) {
   });
 }
 
+/**
+ * Insert an <hr> right before the "Members Only" heading so the members-only
+ * region is separated from the article list, matching the source. The <hr>
+ * survives to markdown as a `---` rule. No-op if there's no Members Only
+ * heading or a separator is already present just before it.
+ */
+function insertMembersSeparator(document, main) {
+  const heading = [...main.querySelectorAll('h1, h2, h3, h4')]
+    .find((h) => /members only/i.test(h.textContent || ''));
+  if (!heading) return;
+  const prev = heading.previousElementSibling;
+  if (prev && prev.tagName === 'HR') return;
+  const hr = document.createElement('hr');
+  heading.before(hr);
+}
+
 export default {
   transform: (payload) => {
     const {
@@ -157,6 +173,11 @@ export default {
     // blocks (e.g. the "WKND Guides" heading) breaks the run, so the two
     // groups stay separate — matching the source's two grids.
     mergeAdjacentBlocks(document, main, 'cards-profile');
+
+    // Restore the source's separator before the "Members Only" region: insert an
+    // <hr> just before the Members Only heading (source shows a full-width rule
+    // between the article list and the members-only teasers).
+    insertMembersSeparator(document, main);
 
     const hr = document.createElement('hr');
     main.appendChild(hr);
