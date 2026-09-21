@@ -426,32 +426,33 @@ main .article-layout .article-layout-body > .section {
   }
 }
 
-/* FAQ page. The .accordion-faq block only ever appears on the faqs pages, so
-   body:has(.accordion-faq) is a page-only hook. Source constrains all FAQ
-   content — hero image, intro, accordion, "Need more help?" — to a ~776px
-   left-aligned column (source content x=138 w=776; hero 748px). Our content
-   otherwise runs the full 1200px section width.
-   Every other page centers a 1200px content box (margin: auto). Left-align the
-   narrow 776px FAQ column to that same left edge: left margin = the centered
-   box's left inset (½ of the leftover space beyond 1200px), clamped to the
-   32px section padding on narrow viewports; right margin auto absorbs the rest. */
-body:has(.accordion-faq) main .section > .default-content-wrapper,
-body:has(.accordion-faq) main .section > .accordion-faq-wrapper {
+/* Reusable "narrow" section style (applied via section-metadata Style=narrow,
+   decorated onto the section as .narrow by decorateSectionMetadata). Constrains
+   the section's content to a ~776px LEFT-aligned column instead of the default
+   centered 1200px box — the FAQ template uses it (source content x=138 w=776,
+   hero 748px). The left edge stays aligned with every other page: left margin =
+   the default centered 1200px box's left inset (½ the leftover beyond 1200px),
+   clamped to the 32px section padding on narrow viewports; right margin auto
+   absorbs the slack. */
+/* stylelint-disable-next-line no-descending-specificity */
+main .section.narrow > .default-content-wrapper,
+main .section.narrow > div[class$='-wrapper'] {
   max-width: 776px;
   margin-left: max(0px, calc((100% - 1200px) / 2));
   margin-right: auto;
 }
 
-/* Hero image caps at the source's 748px (it sits in the narrow column). */
-body:has(.accordion-faq) main .section .default-content-wrapper p:has(> picture) img,
-body:has(.accordion-faq) main .section .default-content-wrapper p:has(> img) img {
+/* Images inside a narrow section cap at 748px (they sit in the narrow column). */
+main .section.narrow .default-content-wrapper p:has(> picture) img,
+main .section.narrow .default-content-wrapper p:has(> img) img {
   max-width: 748px;
   height: auto;
 }
 
-/* Separator above "Need more help?" — source shows a full-width rule between
-   the accordion and the help block. Render as a top border on that block. */
-body:has(.accordion-faq) main .section > .default-content-wrapper:has(h3) {
+/* A trailing default-content block inside a narrow section that leads with a
+   heading (e.g. FAQ "Need more help?") gets a full-width rule above it,
+   matching the source's separator between the main content and the follow-up. */
+main .section.narrow > .default-content-wrapper:has(h3):last-child {
   border-top: 1px solid #ebebeb;
   padding-top: 40px;
   margin-top: 40px;

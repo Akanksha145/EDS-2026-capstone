@@ -25,10 +25,10 @@ const PAGE_TEMPLATE = {
   ],
   sections: [
     {
-      id: 's1', name: 'FAQ Content', selector: ['.accordion.panelcontainer', 'main .cmp-container'], style: null, blocks: ['accordion-faq'], defaultContent: ['main h1', '.cmp-image', '.cmp-text'],
+      id: 's1', name: 'FAQ Content', selector: ['.accordion.panelcontainer', 'main .cmp-container'], style: 'narrow', blocks: ['accordion-faq'], defaultContent: ['main h1', '.cmp-image', '.cmp-text'],
     },
     {
-      id: 's2', name: 'Need more help', selector: ['.title.cmp-title--right', 'main main:last-of-type'], style: null, blocks: [], defaultContent: ['h3', '.cmp-text'],
+      id: 's2', name: 'Need more help', selector: ['.title.cmp-title--right', 'main main:last-of-type'], style: 'narrow', blocks: [], defaultContent: ['h3', '.cmp-text'],
     },
   ],
 };
