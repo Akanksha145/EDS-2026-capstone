@@ -104,12 +104,14 @@ main .section.featured:has(.columns-featured) {
 }
 
 /* Desktop — image left (flex 2), text right (flex 1), no gap.
-   align-items: flex-start lets the image keep its source aspect ratio
-   (709/509) instead of being stretched short to the text-cell height. */
+   align-items: stretch (source default) makes the grey text card match the
+   image column's height — the image is the taller column so it sets the row
+   height and the card grows to fill it (source: both 509px). The image keeps
+   its 709/509 aspect via object-fit: cover, so it isn't distorted. */
 @media (width >= 900px) {
   .columns-featured > div {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   .columns-featured .columns-featured-img-col {
@@ -117,8 +119,13 @@ main .section.featured:has(.columns-featured) {
     min-width: 0;
   }
 
+  .columns-featured .columns-featured-img-col,
+  .columns-featured .columns-featured-img-col picture {
+    height: 100%;
+  }
+
   .columns-featured .columns-featured-img-col img {
-    height: auto;
+    height: 100%;
   }
 
   .columns-featured > div > div:not(.columns-featured-img-col) {
