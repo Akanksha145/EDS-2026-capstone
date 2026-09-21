@@ -141,7 +141,8 @@ main .section.featured:has(.columns-featured) {
   .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) {
     display: flex;
     flex-wrap: wrap;
-    gap: 32px;
+    justify-content: flex-start;
+    gap: 28px;
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -150,8 +151,11 @@ main .section.featured:has(.columns-featured) {
     flex: 1 0 100%;
   }
 
+  /* Source members-only teasers are a fixed 360px wide, left-aligned in the row
+     (28px gap between them) — not stretched to fill the container. */
   .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) > .columns-featured-wrapper {
-    flex: 1 1 0;
+    flex: 0 0 360px;
+    max-width: 360px;
     min-width: 0;
   }
 
