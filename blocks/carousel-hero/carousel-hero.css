@@ -191,10 +191,21 @@
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
+/* --- Mini variant: single-slide hero (e.g. adventure detail pages).
+   Source renders a shorter ~400px image with no content overlay/controls
+   (controls are already omitted in JS for a single slide). --- */
+.carousel-hero:has(.carousel-hero-slide:only-child) .carousel-hero-slide-image img {
+  height: 400px;
+}
+
 /* --- Desktop --- */
 @media (width >= 900px) {
   .carousel-hero .carousel-hero-slide-image img {
     height: 640px;
+  }
+
+  .carousel-hero:has(.carousel-hero-slide:only-child) .carousel-hero-slide-image img {
+    height: 400px;
   }
 
   .carousel-hero .carousel-hero-slide-content {

@@ -162,19 +162,34 @@ main .section.columns-featured-container:has(.columns-featured-wrapper + .column
   padding-top: 40px;
 }
 
+/* Locked members-only teasers expose NO image in the source and sit directly on
+   the page (no grey card) — only the "Read More" chip carries a fill. Hide the
+   imported image column and drop the grey card background in this region so the
+   cards match the source's image-less, un-filled locked teasers. */
+main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper)
+  .columns-featured .columns-featured-img-col {
+  display: none;
+}
+
+main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper)
+  .columns-featured > div > div:not(.columns-featured-img-col) {
+  padding: 0;
+  background-color: transparent;
+}
+
 /* Members-only teasers carry no CTA link in the source (the "Read More" is a
    plain label), so it isn't imported. Render it as a styled label after each
-   members-only teaser's text card to match the source. */
+   members-only teaser's text card to match the source's subtle light-grey
+   locked chip (bg #ebebeb, text #696969), NOT the WKND yellow primary CTA. */
 main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper)
   .columns-featured > div > div:not(.columns-featured-img-col, :has(a))::after {
   content: 'Read More';
   display: inline-block;
-  margin-top: 18px;
-  padding: 14px 35px;
-  background-color: var(--accent-color);
-  color: var(--accent-text-color);
+  margin-top: 14px;
+  padding: 7px 14px;
+  background-color: #ebebeb;
+  color: #696969;
   font-size: var(--body-font-size-xs);
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  font-weight: 400;
   text-transform: uppercase;
 }
