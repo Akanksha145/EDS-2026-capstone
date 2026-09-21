@@ -24,6 +24,10 @@ export default function parse(element, { document }) {
     // Panel content — extract the meaningful nodes inside the content fragment,
     // skipping the empty AEM grid scaffolding divs.
     const source = panel.querySelector('.cmp-contentfragment__elements, .cmp-contentfragment, .contentfragment') || panel;
+    // Drop the content-fragment title (hidden <h3 class="cmp-contentfragment__title">
+    // in source, display:none, text duplicates the adventure H1). Left in place it
+    // is emitted as a spurious <h3> at the top of every tab panel.
+    source.querySelectorAll('.cmp-contentfragment__title').forEach((t) => t.remove());
     const contentCell = [];
     source.querySelectorAll('p, h1, h2, h3, h4, h5, h6, ul, ol, img, a, picture').forEach((node) => {
       // Only keep top-level meaningful nodes: skip nodes nested inside another

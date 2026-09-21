@@ -1,26 +1,9 @@
 /* eslint-disable */
 var CustomImportScript = (() => {
   var __defProp = Object.defineProperty;
-  var __defProps = Object.defineProperties;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __propIsEnum = Object.prototype.propertyIsEnumerable;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __spreadValues = (a, b) => {
-    for (var prop in b || (b = {}))
-      if (__hasOwnProp.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    if (__getOwnPropSymbols)
-      for (var prop of __getOwnPropSymbols(b)) {
-        if (__propIsEnum.call(b, prop))
-          __defNormalProp(a, prop, b[prop]);
-      }
-    return a;
-  };
-  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __export = (target, all) => {
     for (var name in all)
       __defProp(target, name, { get: all[name], enumerable: true });
@@ -73,6 +56,8 @@ var CustomImportScript = (() => {
 
   // tools/importer/parsers/columns-specs.js
   function parse2(element, { document: document2 }) {
+    const cfRoot = element.closest(".cmp-contentfragment");
+    if (cfRoot) cfRoot.querySelectorAll(".cmp-contentfragment__title").forEach((t) => t.remove());
     let specs = Array.from(element.querySelectorAll(".cmp-contentfragment__element"));
     if (!specs.length) {
       const dts = Array.from(element.querySelectorAll("dt"));
@@ -109,6 +94,7 @@ var CustomImportScript = (() => {
     panels.forEach((panel, i) => {
       const label = labels[i] ? labels[i].textContent.trim() : `Tab ${i + 1}`;
       const source = panel.querySelector(".cmp-contentfragment__elements, .cmp-contentfragment, .contentfragment") || panel;
+      source.querySelectorAll(".cmp-contentfragment__title").forEach((t) => t.remove());
       const contentCell = [];
       source.querySelectorAll("p, h1, h2, h3, h4, h5, h6, ul, ol, img, a, picture").forEach((node) => {
         if (node.closest("p, ul, ol, h1, h2, h3, h4, h5, h6") !== node && node.matches("a, img, picture") && node.closest("p, ul, ol, h1, h2, h3, h4, h5, h6")) {
@@ -252,7 +238,7 @@ var CustomImportScript = (() => {
     ...PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [transform2] : []
   ];
   function executeTransformers(hookName, element, payload) {
-    const enhancedPayload = __spreadProps(__spreadValues({}, payload), { template: PAGE_TEMPLATE });
+    const enhancedPayload = { ...payload, template: PAGE_TEMPLATE };
     transformers.forEach((transformerFn) => {
       try {
         transformerFn.call(null, hookName, element, enhancedPayload);

@@ -6,6 +6,7 @@ import cardsRelatedParser from './parsers/cards-related.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/wknd-cleanup.js';
+import articleTransformer from './transformers/wknd-article.js';
 import sectionsTransformer from './transformers/wknd-sections.js';
 
 // PARSER REGISTRY
@@ -35,6 +36,7 @@ const PAGE_TEMPLATE = {
 
 const transformers = [
   cleanupTransformer,
+  articleTransformer,
   ...(PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [sectionsTransformer] : []),
 ];
 

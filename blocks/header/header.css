@@ -249,6 +249,7 @@ header nav .nav-search form {
 header nav .nav-search input {
   box-sizing: border-box;
   border: 0;
+
   /* Source: translucent light-grey field (no underline), ~40px tall, with the
      magnifier icon inset left. */
   height: 40px;

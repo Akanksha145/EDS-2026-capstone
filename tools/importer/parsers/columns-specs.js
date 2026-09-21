@@ -12,6 +12,14 @@
  * the first cell of each row as the label and the second as the value.
  */
 export default function parse(element, { document }) {
+  // Drop the content-fragment title element. In source it is a hidden
+  // <h3 class="cmp-contentfragment__title"> (display:none) duplicating the
+  // page/adventure H1 title; if left in the DOM it is emitted as a spurious
+  // <h3> immediately before the columns-specs block. It is a sibling of
+  // .cmp-contentfragment__elements inside the enclosing .cmp-contentfragment.
+  const cfRoot = element.closest('.cmp-contentfragment');
+  if (cfRoot) cfRoot.querySelectorAll('.cmp-contentfragment__title').forEach((t) => t.remove());
+
   // Each spec is a wrapper element holding a dt (title) and dd (value).
   let specs = Array.from(element.querySelectorAll('.cmp-contentfragment__element'));
   if (!specs.length) {

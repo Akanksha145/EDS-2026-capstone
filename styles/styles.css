@@ -371,3 +371,71 @@ main .section.dark h5,
 main .section.dark h6 {
   color: var(--background-color);
 }
+
+/* Article (magazine) template.
+   There is no template metadata / body class, and the related-stories
+   list (.cards-related) only ever appears on magazine article pages,
+   so :has(.cards-related-container) is used as an article-only hook.
+   This keeps every rule below OFF home / listing / profile / faq etc.
+   Targets measured from wknd.site/us/en/magazine/arctic-surfing.html
+   at 1440x900.
+   Prose column: source constrains the article body to a 776px column
+   with justified body copy (source x=138 w=776, text-align justify).
+   Centered here because this CSS-only DOM has no right rail — see the
+   report: a true left-column + right rail needs a parser/DOM change. */
+body:has(.cards-related-container) main .section .default-content-wrapper {
+  max-width: 776px;
+}
+
+body:has(.cards-related-container) main .section .default-content-wrapper p {
+  text-align: justify;
+}
+
+/* Byline "By Jacob Wester" (h4) + "SHARE THIS STORY" (h5): source is
+   Source Sans Pro 600 UPPERCASE, not the Asar serif the global h4/h5
+   rules leak in (source byline 16/24, share 14/21). */
+body:has(.cards-related-container) main .section .default-content-wrapper h4,
+body:has(.cards-related-container) main .section .default-content-wrapper h5 {
+  font-family: var(--body-font-family);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Author bio — the last three items of the prose column: an avatar <p>,
+   the name <h2> and the role <p>. Targeted with :has() so the section
+   headings above (The front, Clear skies…) are left untouched. */
+
+/* name — source Asar 24/36, tight margins (0 / 4px), NOT the 36/54 h2 */
+body:has(.cards-related-container) main .section .default-content-wrapper h2:has(+ p:last-child) {
+  margin: 0 0 4px;
+  font-size: var(--heading-size-l);
+  line-height: 36px;
+}
+
+/* role "Skater, Writer" — source Source Sans Pro 12/30, 400, UPPERCASE,
+   grey rgb(105 105 105) (ours was 18px dark mixed-case). Scoped to the
+   p that directly follows the author name h2 so it never catches the
+   social-links wrapper's last paragraph. */
+body:has(.cards-related-container) main .section .default-content-wrapper h2 + p:last-child {
+  margin: 0 0 13.5px;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  line-height: 30px;
+  color: rgb(105 105 105);
+  text-transform: uppercase;
+}
+
+/* avatar — source 60x60 circular (object-fit cover), floated left with
+   the name/role sitting beside it (source avatar x=152, name x=237). */
+body:has(.cards-related-container) main .section .default-content-wrapper > p:has(+ h2 + p:last-child) {
+  float: left;
+  margin: 7px 25px 7px 0;
+  line-height: 0;
+}
+
+body:has(.cards-related-container) main .section .default-content-wrapper > p:has(+ h2 + p:last-child) img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}

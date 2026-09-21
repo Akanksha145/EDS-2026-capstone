@@ -22,6 +22,13 @@ export default function decorate(block) {
           const p = a.closest('p');
           social.append(a);
           if (p && !p.textContent.trim() && !p.children.length) p.remove();
+          // Tag the platform so CSS can render the matching inline-SVG glyph.
+          // The link's visible text reliably names the platform (e.g. "Facebook")
+          // even when the href carries no platform (e.g. "#jacob-wester" or "#").
+          const key = `${a.textContent} ${a.getAttribute('href') || ''}`.toLowerCase();
+          const platform = ['facebook', 'twitter', 'instagram', 'linkedin', 'youtube']
+            .find((name) => key.includes(name) || (name === 'instagram' && key.includes('insta')));
+          if (platform) a.classList.add(`cards-profile-social-${platform}`);
         });
         body.append(social);
       }

@@ -20,6 +20,7 @@
 
   /* spacing */
   --section-padding: 10px;
+
   /* taller white nav bar to match source proportions (logo 48px centered with
      generous vertical breathing room) */
   --nav-height: 114px;

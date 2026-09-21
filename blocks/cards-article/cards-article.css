@@ -45,25 +45,26 @@
   margin: 5px 0 0;
 }
 
-/* Title. Source: visible span is Source Sans Pro 18px/27px, weight 600,
-   uppercase, color #202020, no underline (the wrapping <a> is recolored to match). */
+/* Title. Source: Source Sans Pro 18px/27px, weight 400, mixed-case (no
+   text-transform), rendered as a blue link (var(--link-color) #0045ff), no
+   underline. Hover keeps the link color (darkening to --link-hover-color). */
 .cards-article .cards-article-card-body h3 {
   margin: 0;
   font-family: var(--body-font-family);
   font-size: 18px;
   line-height: 27px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--text-color);
+  font-weight: 400;
+  text-transform: none;
+  color: var(--link-color);
 }
 
 .cards-article .cards-article-card-body h3 a:any-link {
-  color: var(--text-color);
+  color: var(--link-color);
   text-decoration: none;
 }
 
 .cards-article .cards-article-card-body h3 a:hover {
-  color: var(--text-color);
+  color: var(--link-hover-color);
   text-decoration: none;
 }
 

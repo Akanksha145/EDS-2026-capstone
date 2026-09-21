@@ -1,10 +1,27 @@
+/* WKND contributor / profile grid — values from source computed styles
+   (wknd.site/us/en/about-us.html, measured at 1440px).
+   Source lays each contributor in a fixed 4-up grid inside a ~1164px centered
+   container; cards are ~235px wide with a ~56px gutter between them. */
+
 .cards-profile > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 40px 24px;
+
+  /* mobile: 2-up, tightening to the source's stacked phone layout on very
+     narrow screens is handled by the intrinsic min of 0. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px 32px;
+}
+
+@media (width >= 900px) {
+  .cards-profile > ul {
+    /* Source is a fixed 4-column grid; each card content is ~235px with a
+       ~56px gutter (sections butt edge-to-edge with 28px internal padding). */
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 40px 56px;
+  }
 }
 
 .cards-profile > ul > li {
@@ -15,15 +32,15 @@
   background-color: var(--background-color);
 }
 
-/* circular avatar */
+/* circular avatar — source renders a 164px round image, object-fit cover */
 .cards-profile .cards-profile-card-image {
   line-height: 0;
   width: 100%;
 }
 
 .cards-profile .cards-profile-card-image img {
-  width: 165px;
-  height: 165px;
+  width: 164px;
+  height: 164px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -32,29 +49,101 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 16px 0 0;
+
+  /* source gap from image bottom to name is 14px */
+  margin: 14px 0 0;
   width: 100%;
 }
 
-/* row of social/icon links */
+/* Contributor name (h3) — Asar 24px, tight margins (source: 0 / 6px).
+   Override the global heading margins which would otherwise apply. */
+.cards-profile .cards-profile-card-body h3 {
+  margin: 0 0 6px;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-size-l);
+  line-height: 36px;
+}
+
+/* Role label (h5) — source renders this in the BODY font (Source Sans Pro),
+   600, UPPERCASE, 14px — NOT the Asar serif the global h5 rule would apply.
+   This is the "serif leak" fix. */
+.cards-profile .cards-profile-card-body h5 {
+  margin: 0 0 3.5px;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  line-height: 21px;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+/* row of social/icon links — source gap from role to icons is ~22px */
 .cards-profile .cards-profile-card-social {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  margin-top: 16px;
+  margin-top: 18px;
 }
 
+/* Social links — source shows light-grey (rgb 235,235,235) icon-font glyphs.
+   We don't have that icon font, so render inline-SVG glyphs (same approach and
+   colour as the footer social icons), hide the platform text label (kept for
+   a11y), and match each platform by the class the block JS tags plus an href
+   fallback. */
 .cards-profile .cards-profile-card-social a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 44px;
   height: 44px;
+  font-size: 0;
+  color: transparent;
+  text-decoration: none;
+  background: no-repeat center / 22px 22px;
 }
 
+.cards-profile .cards-profile-card-social a:hover {
+  color: transparent;
+  text-decoration: none;
+}
+
+.cards-profile .cards-profile-card-social a.cards-profile-social-facebook,
+.cards-profile .cards-profile-card-social a[href*='facebook' i] {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ebebeb"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H7.3V13h2.6v8h3.6z"/></svg>');
+}
+
+.cards-profile .cards-profile-card-social a.cards-profile-social-twitter,
+.cards-profile .cards-profile-card-social a[href*='twitter' i] {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ebebeb"><path d="M22 5.9c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.3 1.7-2.2-.8.5-1.7.8-2.6 1a4.1 4.1 0 0 0-7 3.7A11.6 11.6 0 0 1 3.4 4.7a4.1 4.1 0 0 0 1.3 5.5c-.7 0-1.3-.2-1.9-.5v.1c0 2 1.4 3.6 3.3 4-.6.2-1.3.2-1.9.1a4.1 4.1 0 0 0 3.8 2.9A8.2 8.2 0 0 1 2 18.6a11.6 11.6 0 0 0 6.3 1.8c7.5 0 11.7-6.3 11.7-11.7v-.5c.8-.6 1.5-1.3 2-2.1z"/></svg>');
+}
+
+.cards-profile .cards-profile-card-social a.cards-profile-social-instagram,
+.cards-profile .cards-profile-card-social a[href*='instagram' i],
+.cards-profile .cards-profile-card-social a[href*='insta' i] {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23ebebeb" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="%23ebebeb" stroke="none"/></svg>');
+}
+
+/* keep the .icon/img sizing sane if authored content ever supplies real icons */
 .cards-profile .cards-profile-card-social a .icon,
 .cards-profile .cards-profile-card-social a img {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
+}
+
+/* Section heading + intro copy that introduce each profile grid.
+   These live in the section's default content (outside the block) but belong
+   to the cards-profile section, so scope the fixes to the section container.
+   Source: section h2 margin 27 / 13.5; intro paragraph 14px and upright
+   (our importer wrapped the intro in <em>, which must render normal). */
+main .section.cards-profile-container .default-content-wrapper h2 {
+  margin: 27px 0 13.5px;
+}
+
+main .section.cards-profile-container .default-content-wrapper p {
+  font-size: var(--body-font-size-xs);
+}
+
+main .section.cards-profile-container .default-content-wrapper p em {
+  font-style: normal;
 }

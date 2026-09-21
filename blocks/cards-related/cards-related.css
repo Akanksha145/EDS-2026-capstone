@@ -1,3 +1,8 @@
+/* WKND related-stories list — measured from
+   wknd.site/us/en/magazine/arctic-surfing.html at 1440x900.
+   Source renders this in a compact right rail (list item x=1025, w=263):
+   a blue Source Sans Pro 18/400 title link (no uppercase) over a 12px
+   grey rgb(105 105 105) UPPERCASE date, each row separated by a hairline. */
 .cards-related > ul {
   list-style: none;
   margin: 0;
@@ -15,7 +20,28 @@
   margin: 0;
 }
 
+/* Title link — source is the standard blue link, weight 400, mixed case
+   (the parser wraps it in an h3; override the Asar heading + old
+   700/uppercase treatment). */
+.cards-related .cards-related-card-body h3 {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);
+  font-weight: 400;
+  line-height: 27px;
+}
+
 .cards-related .cards-related-card-body a {
-  font-weight: 700;
+  color: var(--link-color);
+  font-weight: 400;
+  text-transform: none;
+}
+
+/* Date line — source 12px grey UPPERCASE */
+.cards-related .cards-related-card-body p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: rgb(105 105 105);
   text-transform: uppercase;
 }
