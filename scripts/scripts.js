@@ -210,8 +210,7 @@ function decorateArticleLayout(main) {
   );
   if (!proseSections.length) return;
 
-  // Build the two-column grid: [prose column][rail column], inserted where the
-  // first prose section currently sits.
+  // Build the two-column grid: [prose column][rail column].
   const grid = document.createElement('div');
   grid.className = 'article-layout';
   const proseCol = document.createElement('div');
@@ -219,8 +218,15 @@ function decorateArticleLayout(main) {
   const railCol = document.createElement('div');
   railCol.className = 'article-layout-rail';
 
-  const anchor = proseSections[0];
-  anchor.before(grid);
+  // Position the grid directly after the lead (H1) section so the title/byline
+  // always stays full-width above the two columns — the lead section's position
+  // in document order varies across pages (sometimes last), so anchor to it
+  // explicitly rather than to the first prose section.
+  if (leadSection) {
+    leadSection.after(grid);
+  } else {
+    proseSections[0].before(grid);
+  }
   proseSections.forEach((s) => proseCol.append(s));
   railSections.forEach((s) => railCol.append(s));
   grid.append(proseCol, railCol);
