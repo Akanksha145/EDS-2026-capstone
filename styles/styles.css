@@ -426,6 +426,33 @@ main .article-layout .article-layout-body > .section {
   }
 }
 
+/* FAQ page. The .accordion-faq block only ever appears on the faqs pages, so
+   body:has(.accordion-faq) is a page-only hook. Source constrains all FAQ
+   content — hero image, intro, accordion, "Need more help?" — to a ~776px
+   left-aligned column (source content x=138 w=776; hero 748px). Our content
+   otherwise runs the full 1200px section width. */
+body:has(.accordion-faq) main .section > .default-content-wrapper,
+body:has(.accordion-faq) main .section > .accordion-faq-wrapper {
+  max-width: 776px;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* Hero image caps at the source's 748px (it sits in the narrow column). */
+body:has(.accordion-faq) main .section .default-content-wrapper p:has(> picture) img,
+body:has(.accordion-faq) main .section .default-content-wrapper p:has(> img) img {
+  max-width: 748px;
+  height: auto;
+}
+
+/* Separator above "Need more help?" — source shows a full-width rule between
+   the accordion and the help block. Render as a top border on that block. */
+body:has(.accordion-faq) main .section > .default-content-wrapper:has(h3) {
+  border-top: 1px solid #ebebeb;
+  padding-top: 40px;
+  margin-top: 40px;
+}
+
 body:has(.cards-related-container) main .section .default-content-wrapper p {
   text-align: justify;
 }
