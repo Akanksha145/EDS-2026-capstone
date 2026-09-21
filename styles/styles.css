@@ -430,11 +430,15 @@ main .article-layout .article-layout-body > .section {
    body:has(.accordion-faq) is a page-only hook. Source constrains all FAQ
    content — hero image, intro, accordion, "Need more help?" — to a ~776px
    left-aligned column (source content x=138 w=776; hero 748px). Our content
-   otherwise runs the full 1200px section width. */
+   otherwise runs the full 1200px section width.
+   Every other page centers a 1200px content box (margin: auto). Left-align the
+   narrow 776px FAQ column to that same left edge: left margin = the centered
+   box's left inset (½ of the leftover space beyond 1200px), clamped to the
+   32px section padding on narrow viewports; right margin auto absorbs the rest. */
 body:has(.accordion-faq) main .section > .default-content-wrapper,
 body:has(.accordion-faq) main .section > .accordion-faq-wrapper {
   max-width: 776px;
-  margin-left: 0;
+  margin-left: max(0px, calc((100% - 1200px) / 2));
   margin-right: auto;
 }
 
