@@ -155,32 +155,41 @@ main .section.featured:has(.columns-featured) {
     min-width: 0;
   }
 
-  /* stack image over text within each members-only teaser so two fit per row */
+  /* Source members-only teaser: text content (title + description + Read More)
+     on TOP, image BELOW (source content y < image y). The decorated DOM has the
+     image column first, so column-reverse puts the text card on top and the
+     image beneath it. */
   .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) .columns-featured > div {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 }
 
-/* Visible separator above the members-only region (source shows a full-width
-   rule between the article list and the members-only teasers). Applies to a
-   columns-featured section that contains a "Members Only" heading. */
+/* Visible separator above the members-only region: source shows a full-width
+   1px rule (#ebebeb) between the article list and the members-only teasers. */
 main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) {
-  border-top: 1px solid var(--light-color);
+  border-top: 1px solid #ebebeb;
   padding-top: 40px;
 }
 
-/* Locked members-only teasers expose NO image in the source and sit directly on
-   the page (no grey card) — only the "Read More" chip carries a fill. Hide the
-   imported image column and drop the grey card background in this region so the
-   cards match the source's image-less, un-filled locked teasers. */
+/* Members-only teaser image: source shows it (360x200, object-fit cover) below
+   the text. Reset the featured teaser's tall 709/509 aspect to the source's
+   wider members ratio and let it sit un-padded beneath the content. */
 main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper)
   .columns-featured .columns-featured-img-col {
-  display: none;
+  padding: 0;
 }
 
 main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper)
+  .columns-featured .columns-featured-img-col img {
+  aspect-ratio: 360 / 200;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Text card sits directly on the page (no grey fill) above the image. */
+main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper)
   .columns-featured > div > div:not(.columns-featured-img-col) {
-  padding: 0;
+  padding: 0 0 18px;
   background-color: transparent;
 }
 
