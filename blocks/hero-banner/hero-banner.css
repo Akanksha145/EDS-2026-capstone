@@ -36,14 +36,21 @@
   object-position: 50% 100%;
 }
 
-/* overlaid white content card, pulled up over the image bottom */
+/* overlaid white content card. Source pins the card's bottom flush with the
+   image bottom, overlapping only the lower strip of the photo. Pinning with
+   position:absolute keeps the bottom flush regardless of the card's height
+   (which varies — some instances have a CTA, some don't), avoiding the
+   float-mid-image look a fixed negative margin produced. */
 .hero-banner .hero-banner-content {
-  position: relative;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
   box-sizing: border-box;
   max-width: 1200px;
-  margin: -80px auto 0;
+  margin: 0 auto;
   background: #fff;
-  padding: 0 20px 24px;
+  padding: 20px;
 }
 
 /* leftover empty image cell after decorate — collapse it */
@@ -103,8 +110,8 @@
   }
 
   .hero-banner .hero-banner-content {
-    margin: -180px auto 0;
-    padding: 0 28px;
+    margin: 0 auto;
+    padding: 28px;
   }
 
   .hero-banner .hero-banner-content h2 {
