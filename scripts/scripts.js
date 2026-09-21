@@ -173,6 +173,60 @@ function decorateSectionMetadata(main) {
 }
 
 /**
+ * Article pages (magazine stories) place the body prose and the "Share This
+ * Story" + related-articles list as separate sibling sections. The source
+ * renders these as a two-column layout: a 776px prose column on the left and a
+ * ~291px rail on the right, top-aligned. The migrated sections arrive in
+ * varying order across the 12 article pages, so classify each section by
+ * content (not position) and wrap prose vs. rail into a CSS grid.
+ *
+ * Detected only on article pages (identified by a cards-related block). The
+ * grid itself is styled in styles.css under `.article-layout`.
+ * @param {Element} main The main element
+ */
+function decorateArticleLayout(main) {
+  const relatedBlock = main.querySelector('.cards-related');
+  if (!relatedBlock) return; // not an article page
+
+  const sections = [...main.querySelectorAll(':scope > div.section')];
+  if (sections.length < 2) return;
+
+  // The first section (breadcrumb + H1 + byline + prose) stays full-width above
+  // the two columns; everything from the "Share This Story" section onward is
+  // the rail. Classify by content: a section is "rail" if it contains the
+  // related-articles block, the SHARE heading, or the author social links.
+  const relatedSection = relatedBlock.closest(':scope > div.section, div.section');
+  const shareSection = sections.find((s) => [...s.querySelectorAll('h5')]
+    .some((h) => /share this story/i.test(h.textContent || '')));
+
+  const railSections = sections.filter((s) => s === relatedSection || s === shareSection);
+  if (!railSections.length) return;
+
+  // Prose = the body sections that are not rail and not the lead title section.
+  // Keep the lead section (has the H1) full-width at the top.
+  const leadSection = sections.find((s) => s.querySelector('h1'));
+  const proseSections = sections.filter(
+    (s) => !railSections.includes(s) && s !== leadSection,
+  );
+  if (!proseSections.length) return;
+
+  // Build the two-column grid: [prose column][rail column], inserted where the
+  // first prose section currently sits.
+  const grid = document.createElement('div');
+  grid.className = 'article-layout';
+  const proseCol = document.createElement('div');
+  proseCol.className = 'article-layout-body';
+  const railCol = document.createElement('div');
+  railCol.className = 'article-layout-rail';
+
+  const anchor = proseSections[0];
+  anchor.before(grid);
+  proseSections.forEach((s) => proseCol.append(s));
+  railSections.forEach((s) => railCol.append(s));
+  grid.append(proseCol, railCol);
+}
+
+/**
  * Strips the `.html` extension from internal links. The migrated WKND content
  * carries source-style links like `/us/en/adventures.html`, but EDS serves
  * pages at extensionless paths, so those links would 404. Rewrites in place;
@@ -209,6 +263,7 @@ export function decorateMain(main) {
   decorateBlocks(main);
   decorateButtons(main);
   decorateLinks(main);
+  decorateArticleLayout(main);
 }
 
 /**

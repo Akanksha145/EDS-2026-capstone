@@ -381,10 +381,49 @@ main .section.dark h6 {
    at 1440x900.
    Prose column: source constrains the article body to a 776px column
    with justified body copy (source x=138 w=776, text-align justify).
-   Centered here because this CSS-only DOM has no right rail — see the
-   report: a true left-column + right rail needs a parser/DOM change. */
+   decorateArticleLayout() (scripts.js) wraps the prose sections and the
+   SHARE + related rail into `.article-layout`, a two-column grid matching
+   source (776px prose + 97px gap + 291px rail, top-aligned). */
 body:has(.cards-related-container) main .section .default-content-wrapper {
   max-width: 776px;
+}
+
+/* Two-column article grid: prose left, SHARE+related rail right.
+   Source geometry (1440px): content area 1164px = 776 + 97 gap + 291.
+   Built by decorateArticleLayout(); collapses to a single column on
+   narrow viewports. */
+main .article-layout {
+  display: grid;
+  grid-template-columns: 776px 291px;
+  gap: 0 97px;
+  max-width: 1164px;
+  margin: 0 auto;
+}
+
+main .article-layout .article-layout-body,
+main .article-layout .article-layout-rail {
+  min-width: 0;
+}
+
+/* Rail sections shed the full-width section chrome so they stack compactly
+   at the top of the right column. */
+main .article-layout .article-layout-rail > .section {
+  padding: 0;
+  margin: 0 0 24px;
+  max-width: none;
+}
+
+main .article-layout .article-layout-body > .section {
+  padding: 0;
+}
+
+/* Single column below the two-column breakpoint. */
+@media (width < 900px) {
+  main .article-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+    max-width: 776px;
+  }
 }
 
 body:has(.cards-related-container) main .section .default-content-wrapper p {
