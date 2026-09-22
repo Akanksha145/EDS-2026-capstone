@@ -478,6 +478,14 @@ main .section.narrow > .faq-layout .accordion-faq-wrapper {
   margin: 0;
 }
 
+/* Align the rail's "Need more help?" heading with the body's FAQs H1 baseline.
+   The H1 carries a 60px top margin; match it on the rail's first heading so the
+   two headings sit on the same line (the rail heading otherwise starts higher
+   with its default 36px h3 margin). */
+main .section.narrow > .faq-layout > .faq-layout-rail > .default-content-wrapper > :first-child {
+  margin-top: 60px;
+}
+
 @media (width < 900px) {
   main .section.narrow > .faq-layout {
     grid-template-columns: 1fr;
