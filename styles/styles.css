@@ -394,6 +394,7 @@ body:has(.cards-related-container) main .section .default-content-wrapper {
 body:has(.cards-related-container) main > .section:first-of-type > .default-content-wrapper {
   margin-left: max(0px, calc((100% - 1164px) / 2));
   margin-right: auto;
+  padding-left: 0;
 }
 
 /* Author-bio separator: source shows an <hr> rule above the "Jacob Wester"
