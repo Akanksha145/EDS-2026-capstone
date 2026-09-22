@@ -567,3 +567,5 @@ body:has(.cards-related-container) main .section .default-content-wrapper > p:ha
   border-radius: 50%;
   object-fit: cover;
 }
+
+/* rev: production sync 202609221109 */
