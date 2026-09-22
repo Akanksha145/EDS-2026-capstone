@@ -233,6 +233,55 @@ function decorateArticleLayout(main) {
 }
 
 /**
+ * FAQ pages place the "Need more help?" follow-up in a right rail beside the
+ * FAQ content column (source: content 748px at x=152, rail 291px at x=1011).
+ * Unlike the article template these arrive as sibling *wrappers* inside one
+ * `.accordion-faq` section, so wrap them into a two-column grid: left column =
+ * everything except the help block (intro + accordion), right rail = the
+ * trailing default-content block that leads with the "Need more help?" heading.
+ *
+ * Detected only on FAQ pages (identified by an accordion-faq block). Styled in
+ * styles.css under `.faq-layout`.
+ * @param {Element} main The main element
+ */
+function decorateFaqLayout(main) {
+  const accordion = main.querySelector('.accordion-faq');
+  if (!accordion) return; // not an FAQ page
+  const section = accordion.closest('div.section');
+  if (!section) return;
+
+  const wrappers = [...section.children];
+  // Rail = the default-content-wrapper that leads with the "Need more help?"
+  // heading. Everything else stays in the left column.
+  const railWrapper = wrappers.find((w) => {
+    const h = w.querySelector('h2, h3, h4');
+    return h && /need more help/i.test(h.textContent || '');
+  });
+  if (!railWrapper) return;
+
+  // A divider-wrapper is only meaningful in a single-column stack; in the
+  // two-column layout the rail separates itself, so drop it.
+  wrappers.filter((w) => w.classList.contains('divider-wrapper')).forEach((w) => w.remove());
+
+  const bodyWrappers = wrappers.filter(
+    (w) => w !== railWrapper && !w.classList.contains('divider-wrapper'),
+  );
+  if (!bodyWrappers.length) return;
+
+  const grid = document.createElement('div');
+  grid.className = 'faq-layout';
+  const bodyCol = document.createElement('div');
+  bodyCol.className = 'faq-layout-body';
+  const railCol = document.createElement('div');
+  railCol.className = 'faq-layout-rail';
+
+  bodyWrappers[0].before(grid);
+  bodyWrappers.forEach((w) => bodyCol.append(w));
+  railCol.append(railWrapper);
+  grid.append(bodyCol, railCol);
+}
+
+/**
  * Strips the `.html` extension from internal links. The migrated WKND content
  * carries source-style links like `/us/en/adventures.html`, but EDS serves
  * pages at extensionless paths, so those links would 404. Rewrites in place;
@@ -270,6 +319,7 @@ export function decorateMain(main) {
   decorateButtons(main);
   decorateLinks(main);
   decorateArticleLayout(main);
+  decorateFaqLayout(main);
 }
 
 /**

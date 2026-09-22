@@ -449,9 +449,42 @@ main .section.narrow .default-content-wrapper p:has(> img) img {
   height: auto;
 }
 
-/* The separator above a trailing follow-up block (e.g. FAQ "Need more help?")
-   is rendered by an authored `divider` block inserted at import time, not a
-   CSS border — see the divider block. */
+/* FAQ two-column layout: FAQ content (intro + accordion) on the left, the
+   "Need more help?" follow-up in a right rail — matching source (content 748px
+   at x=152, rail 291px at x=1011). Built by decorateFaqLayout(); left-aligned
+   to the same edge as every other page, collapses to one column < 900px.
+   The grid replaces the .narrow single-column treatment for these wrappers,
+   so its columns override the narrow max-width. */
+main .section.narrow > .faq-layout {
+  display: grid;
+  grid-template-columns: 748px 291px;
+  gap: 0 97px;
+  max-width: 1164px;
+  margin-left: max(0px, calc((100% - 1200px) / 2));
+  margin-right: auto;
+}
+
+main .section.narrow > .faq-layout > .faq-layout-body,
+main .section.narrow > .faq-layout > .faq-layout-rail {
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+}
+
+/* the wrappers inside the columns fill their column (cancel .narrow's 776px) */
+main .section.narrow > .faq-layout .default-content-wrapper,
+main .section.narrow > .faq-layout .accordion-faq-wrapper {
+  max-width: none;
+  margin: 0;
+}
+
+@media (width < 900px) {
+  main .section.narrow > .faq-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-width: 776px;
+  }
+}
 
 body:has(.cards-related-container) main .section .default-content-wrapper p {
   text-align: justify;

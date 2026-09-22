@@ -99,23 +99,9 @@ export default {
 
     executeTransformers('afterTransform', main, payload);
 
-    // Insert a divider block before the "Need more help?" follow-up block so a
-    // visible hairline separates it from the accordion (source shows a rule
-    // there). Uses the divider block rather than a bare <hr> (which EDS treats
-    // as a section boundary). No-op if the heading is missing or a divider is
-    // already present just before it.
-    const helpHeading = [...main.querySelectorAll('h1, h2, h3, h4')]
-      .find((h) => /need more help/i.test(h.textContent || ''));
-    if (helpHeading) {
-      const prev = helpHeading.previousElementSibling;
-      const prevIsDivider = prev
-        && (prev.tagName === 'HR'
-          || /(^|\s)divider(\s|$)/i.test((prev.querySelector('th, td')?.textContent || '').trim()));
-      if (!prevIsDivider) {
-        const divider = WebImporter.Blocks.createBlock(document, { name: 'Divider', cells: {} });
-        helpHeading.before(divider);
-      }
-    }
+    // Note: the "Need more help?" block is placed in a right rail by
+    // decorateFaqLayout() at render time (source shows it beside the accordion,
+    // not below with a separator), so no divider is inserted here.
 
     const hr = document.createElement('hr');
     main.appendChild(hr);
