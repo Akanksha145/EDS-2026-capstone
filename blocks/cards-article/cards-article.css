@@ -68,6 +68,19 @@
   text-decoration: none;
 }
 
+/* Adventures listing (the cards-article grid paired with the tabs-filter):
+   the card titles render BLACK here rather than the default blue link. Scoped
+   to the tabs-filter section so the home / magazine article grids keep their
+   blue titles. */
+.tabs-filter-container .cards-article .cards-article-card-body h3,
+.tabs-filter-container .cards-article .cards-article-card-body h3 a:any-link {
+  color: var(--text-color);
+}
+
+.tabs-filter-container .cards-article .cards-article-card-body h3 a:hover {
+  color: var(--text-color);
+}
+
 /* Description. Source: Source Sans Pro 14px/21px, uppercase, gray #696969,
    16px top margin, single-line ellipsis truncation. */
 .cards-article .cards-article-card-body p {
