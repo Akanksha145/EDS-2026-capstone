@@ -147,7 +147,8 @@ main .section.featured:has(.columns-featured) {
     margin: 0 auto;
   }
 
-  .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) > .default-content-wrapper {
+  .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) > .default-content-wrapper,
+  .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) > .divider-wrapper {
     flex: 1 0 100%;
   }
 
