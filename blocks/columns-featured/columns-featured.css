@@ -203,6 +203,20 @@ main .section.columns-featured-container:has(.columns-featured-wrapper + .column
   background-color: transparent;
 }
 
+/* Members-only teaser title: source is a compact card title — Source Sans Pro
+   18px, weight 600, UPPERCASE, #202020 — NOT the 36px Asar serif used for the
+   top Featured Article teaser. */
+main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper)
+  .columns-featured h2 {
+  margin: 0 0 9px;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  line-height: 27px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
 /* Members-only teasers carry no CTA link in the source (the "Read More" is a
    plain label), so it isn't imported. Render it as a styled label after each
    members-only teaser's text card to match the source's subtle light-grey

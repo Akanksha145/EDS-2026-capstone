@@ -388,6 +388,23 @@ body:has(.cards-related-container) main .section .default-content-wrapper {
   max-width: 776px;
 }
 
+/* Lead section (H1 + byline) sits above the two-column grid and must left-align
+   to the same edge as the prose column (the grid is a centered 1164px block, so
+   its left edge = the centered-block inset), not center in the 1200px section. */
+body:has(.cards-related-container) main > .section:first-of-type > .default-content-wrapper {
+  margin-left: max(0px, calc((100% - 1164px) / 2));
+  margin-right: auto;
+}
+
+/* Author-bio separator: source shows an <hr> rule above the "Jacob Wester"
+   author block (the h2 name + role that ends the prose). Render it as a
+   top border on the avatar paragraph that leads the author block. */
+body:has(.cards-related-container) main .article-layout-body .default-content-wrapper > p:has(+ h2 + p:last-child) {
+  border-top: 1px solid #ebebeb;
+  padding-top: 36px;
+  margin-top: 36px;
+}
+
 /* Two-column article grid: prose left, SHARE+related rail right.
    Source geometry (1440px): content area 1164px = 776 + 97 gap + 291.
    Built by decorateArticleLayout(); collapses to a single column on
