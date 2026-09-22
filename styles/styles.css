@@ -399,7 +399,6 @@ body:has(.cards-related-container) main > .section:first-of-type > .default-cont
 /* Author-bio separator: source shows an <hr> rule above the "Jacob Wester"
    author block (the h2 name + role that ends the prose). Render it as a
    top border on the avatar paragraph that leads the author block. */
-/* stylelint-disable-next-line no-descending-specificity */
 body:has(.cards-related-container) main .article-layout-body .default-content-wrapper > p:has(+ h2 + p:last-child) {
   border-top: 1px solid #ebebeb;
   padding-top: 36px;
@@ -490,6 +489,7 @@ main .section.narrow > .faq-layout > .faq-layout-rail {
 }
 
 /* the wrappers inside the columns fill their column (cancel .narrow's 776px) */
+/* stylelint-disable-next-line no-descending-specificity */
 main .section.narrow > .faq-layout .default-content-wrapper,
 main .section.narrow > .faq-layout .accordion-faq-wrapper {
   max-width: none;
@@ -512,6 +512,7 @@ main .section.narrow > .faq-layout > .faq-layout-rail > .default-content-wrapper
   }
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 body:has(.cards-related-container) main .section .default-content-wrapper p {
   text-align: justify;
 }
@@ -541,6 +542,7 @@ body:has(.cards-related-container) main .section .default-content-wrapper h2:has
    grey rgb(105 105 105) (ours was 18px dark mixed-case). Scoped to the
    p that directly follows the author name h2 so it never catches the
    social-links wrapper's last paragraph. */
+/* stylelint-disable-next-line no-descending-specificity */
 body:has(.cards-related-container) main .section .default-content-wrapper h2 + p:last-child {
   margin: 0 0 13.5px;
   font-family: var(--body-font-family);
