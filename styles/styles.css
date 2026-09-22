@@ -399,6 +399,7 @@ body:has(.cards-related-container) main > .section:first-of-type > .default-cont
 /* Author-bio separator: source shows an <hr> rule above the "Jacob Wester"
    author block (the h2 name + role that ends the prose). Render it as a
    top border on the avatar paragraph that leads the author block. */
+/* stylelint-disable-next-line no-descending-specificity */
 body:has(.cards-related-container) main .article-layout-body .default-content-wrapper > p:has(+ h2 + p:last-child) {
   border-top: 1px solid #ebebeb;
   padding-top: 36px;
