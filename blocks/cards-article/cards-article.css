@@ -69,12 +69,15 @@
 }
 
 /* Adventures listing (the cards-article grid paired with the tabs-filter):
-   the card titles render BLACK here rather than the default blue link. Scoped
-   to the tabs-filter section so the home / magazine article grids keep their
-   blue titles. */
+   source styles these card titles as Source Sans Pro 18px, weight 600,
+   UPPERCASE, black (#202020) — not the blue mixed-case link used elsewhere.
+   Scoped to the tabs-filter section so the home / magazine article grids keep
+   their blue titles. */
 .tabs-filter-container .cards-article .cards-article-card-body h3,
 .tabs-filter-container .cards-article .cards-article-card-body h3 a:any-link {
   color: var(--text-color);
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .tabs-filter-container .cards-article .cards-article-card-body h3 a:hover {
