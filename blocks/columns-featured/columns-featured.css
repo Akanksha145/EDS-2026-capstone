@@ -173,10 +173,10 @@ main .section.featured:has(.columns-featured) {
   }
 }
 
-/* Visible separator above the members-only region: source shows a full-width
-   1px rule (#ebebeb) between the article list and the members-only teasers. */
+/* The separator above the members-only region is rendered by an authored
+   `divider` block inserted at import time (before the "Members Only" heading),
+   not a CSS border — see the divider block. Keep the top padding for spacing. */
 main .section.columns-featured-container:has(.columns-featured-wrapper + .columns-featured-wrapper) {
-  border-top: 1px solid #ebebeb;
   padding-top: 40px;
 }
 

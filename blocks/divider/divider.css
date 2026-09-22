@@ -10,6 +10,14 @@
   border-top: 1px solid #ebebeb;
   margin: 0;
   height: 0;
+  width: 100%;
+}
+
+/* If the divider lands inside a flex/grid container (e.g. the members-only
+   region), force it to span the full row so its rule doesn't collapse. */
+.divider {
+  flex: 1 0 100%;
+  width: 100%;
 }
 
 /* accent variant — short WKND-yellow rule (like the section-title underline) */
