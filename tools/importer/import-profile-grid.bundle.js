@@ -296,11 +296,12 @@ var CustomImportScript = (() => {
   function insertMembersSeparator(document2, main) {
     const heading = [...main.querySelectorAll("h1, h2, h3, h4")].find((h) => /members only/i.test(h.textContent || ""));
     if (!heading) return;
-    const prev = heading.previousElementSibling;
-    const prevIsDivider = prev && (prev.tagName === "HR" || /(^|\s)divider(\s|$)/i.test((prev.querySelector("th, td")?.textContent || "").trim()));
-    if (prevIsDivider) return;
+    const intro = [...main.querySelectorAll("p")].find((p) => /sign in|members only/i.test(p.textContent || ""));
+    const anchor = intro || heading;
+    const isDivider = (el) => el && (el.tagName === "HR" || /(^|\s)divider(\s|$)/i.test((el.querySelector?.("th, td")?.textContent || "").trim()));
+    if (isDivider(anchor.nextElementSibling)) return;
     const divider = WebImporter.Blocks.createBlock(document2, { name: "Divider", cells: {} });
-    heading.before(divider);
+    anchor.after(divider);
   }
   var import_profile_grid_default = {
     transform: (payload) => {
