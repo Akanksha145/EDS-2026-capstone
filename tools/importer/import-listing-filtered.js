@@ -108,6 +108,12 @@ export default {
 
     executeTransformers('afterTransform', main, payload);
 
+    // Source shows a visible hairline at the end of the page, just before the
+    // footer. Append a divider block (renders the rule) as the last content of
+    // main. It goes before the trailing section-marker <hr> below.
+    const endDivider = WebImporter.Blocks.createBlock(document, { name: 'Divider', cells: {} });
+    main.appendChild(endDivider);
+
     const hr = document.createElement('hr');
     main.appendChild(hr);
     WebImporter.rules.createMetadata(main, document);
