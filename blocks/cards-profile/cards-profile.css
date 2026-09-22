@@ -86,21 +86,25 @@
   margin-top: 18px;
 }
 
-/* Social links — source shows light-grey (rgb 235,235,235) icon-font glyphs.
-   We don't have that icon font, so render inline-SVG glyphs (same approach and
-   colour as the footer social icons), hide the platform text label (kept for
-   a11y), and match each platform by the class the block JS tags plus an href
-   fallback. */
+/* Social links — source renders each as a 48x48 DARK tile (#202020) with a
+   light-grey (#ebebeb) icon-font glyph centered. We don't have that icon font,
+   so render inline-SVG glyphs (light, same as the footer icons) on the dark
+   tile, hide the platform text label (kept for a11y), and match each platform
+   by the class the block JS tags plus an href fallback. Longhand background
+   props so the dark tile color and the per-platform glyph image coexist. */
 .cards-profile .cards-profile-card-social a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   font-size: 0;
   color: transparent;
   text-decoration: none;
-  background: no-repeat center / 22px 22px;
+  background-color: #202020;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 22px 22px;
 }
 
 .cards-profile .cards-profile-card-social a:hover {
