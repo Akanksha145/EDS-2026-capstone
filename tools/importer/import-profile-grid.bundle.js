@@ -297,9 +297,10 @@ var CustomImportScript = (() => {
     const heading = [...main.querySelectorAll("h1, h2, h3, h4")].find((h) => /members only/i.test(h.textContent || ""));
     if (!heading) return;
     const prev = heading.previousElementSibling;
-    if (prev && prev.tagName === "HR") return;
-    const hr = document2.createElement("hr");
-    heading.before(hr);
+    const prevIsDivider = prev && (prev.tagName === "HR" || /(^|\s)divider(\s|$)/i.test((prev.querySelector("th, td")?.textContent || "").trim()));
+    if (prevIsDivider) return;
+    const divider = WebImporter.Blocks.createBlock(document2, { name: "Divider", cells: {} });
+    heading.before(divider);
   }
   var import_profile_grid_default = {
     transform: (payload) => {

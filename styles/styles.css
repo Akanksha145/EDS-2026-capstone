@@ -449,14 +449,9 @@ main .section.narrow .default-content-wrapper p:has(> img) img {
   height: auto;
 }
 
-/* A trailing default-content block inside a narrow section that leads with a
-   heading (e.g. FAQ "Need more help?") gets a full-width rule above it,
-   matching the source's separator between the main content and the follow-up. */
-main .section.narrow > .default-content-wrapper:has(h3):last-child {
-  border-top: 1px solid #ebebeb;
-  padding-top: 40px;
-  margin-top: 40px;
-}
+/* The separator above a trailing follow-up block (e.g. FAQ "Need more help?")
+   is rendered by an authored `divider` block inserted at import time, not a
+   CSS border — see the divider block. */
 
 body:has(.cards-related-container) main .section .default-content-wrapper p {
   text-align: justify;

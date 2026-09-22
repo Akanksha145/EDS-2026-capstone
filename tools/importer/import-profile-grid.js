@@ -124,19 +124,23 @@ function mergeAdjacentBlocks(document, main, blockName) {
 }
 
 /**
- * Insert an <hr> right before the "Members Only" heading so the members-only
- * region is separated from the article list, matching the source. The <hr>
- * survives to markdown as a `---` rule. No-op if there's no Members Only
- * heading or a separator is already present just before it.
+ * Insert a `divider` block right before the "Members Only" heading so the
+ * members-only region is separated from the article list, matching the source.
+ * Uses the divider block (renders a visible hairline) rather than a bare <hr>,
+ * which EDS would treat as a section boundary. No-op if there's no Members Only
+ * heading or a divider is already present just before it.
  */
 function insertMembersSeparator(document, main) {
   const heading = [...main.querySelectorAll('h1, h2, h3, h4')]
     .find((h) => /members only/i.test(h.textContent || ''));
   if (!heading) return;
   const prev = heading.previousElementSibling;
-  if (prev && prev.tagName === 'HR') return;
-  const hr = document.createElement('hr');
-  heading.before(hr);
+  const prevIsDivider = prev
+    && (prev.tagName === 'HR'
+      || /(^|\s)divider(\s|$)/i.test((prev.querySelector('th, td')?.textContent || '').trim()));
+  if (prevIsDivider) return;
+  const divider = WebImporter.Blocks.createBlock(document, { name: 'Divider', cells: {} });
+  heading.before(divider);
 }
 
 export default {

@@ -216,6 +216,15 @@ var CustomImportScript = (() => {
         }
       });
       executeTransformers("afterTransform", main, payload);
+      const helpHeading = [...main.querySelectorAll("h1, h2, h3, h4")].find((h) => /need more help/i.test(h.textContent || ""));
+      if (helpHeading) {
+        const prev = helpHeading.previousElementSibling;
+        const prevIsDivider = prev && (prev.tagName === "HR" || /(^|\s)divider(\s|$)/i.test((prev.querySelector("th, td")?.textContent || "").trim()));
+        if (!prevIsDivider) {
+          const divider = WebImporter.Blocks.createBlock(document2, { name: "Divider", cells: {} });
+          helpHeading.before(divider);
+        }
+      }
       const hr = document2.createElement("hr");
       main.appendChild(hr);
       WebImporter.rules.createMetadata(main, document2);
