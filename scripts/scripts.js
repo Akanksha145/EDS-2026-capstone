@@ -10,6 +10,8 @@ import {
   loadSections,
   loadCSS,
   buildBlock,
+  readBlockConfig,
+  toClassName,
 } from './aem.js';
 
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
@@ -143,6 +145,167 @@ function decorateButtons(main) {
 }
 
 /**
+ * Applies section metadata as classes/data attributes on each section.
+ * The vendored aem.js decorateSections() does not consume the
+ * `.section-metadata` block, so process it here: read the config, set the
+ * `style` values as classes on the section, other keys as data attributes,
+ * then remove the metadata block.
+ * @param {Element} main The container element
+ */
+function decorateSectionMetadata(main) {
+  main.querySelectorAll(':scope > div.section').forEach((section) => {
+    const sectionMeta = section.querySelector('div.section-metadata');
+    if (!sectionMeta) return;
+    const meta = readBlockConfig(sectionMeta);
+    Object.keys(meta).forEach((key) => {
+      if (key === 'style') {
+        const styles = meta.style
+          .split(',')
+          .map((style) => toClassName(style.trim()))
+          .filter((style) => style);
+        styles.forEach((style) => section.classList.add(style));
+      } else {
+        section.dataset[toClassName(key)] = meta[key];
+      }
+    });
+    sectionMeta.parentNode.remove();
+  });
+}
+
+/**
+ * Article pages (magazine stories) place the body prose and the "Share This
+ * Story" + related-articles list as separate sibling sections. The source
+ * renders these as a two-column layout: a 776px prose column on the left and a
+ * ~291px rail on the right, top-aligned. The migrated sections arrive in
+ * varying order across the 12 article pages, so classify each section by
+ * content (not position) and wrap prose vs. rail into a CSS grid.
+ *
+ * Detected only on article pages (identified by a cards-related block). The
+ * grid itself is styled in styles.css under `.article-layout`.
+ * @param {Element} main The main element
+ */
+function decorateArticleLayout(main) {
+  const relatedBlock = main.querySelector('.cards-related');
+  if (!relatedBlock) return; // not an article page
+
+  const sections = [...main.querySelectorAll(':scope > div.section')];
+  if (sections.length < 2) return;
+
+  // The first section (breadcrumb + H1 + byline + prose) stays full-width above
+  // the two columns; everything from the "Share This Story" section onward is
+  // the rail. Classify by content: a section is "rail" if it contains the
+  // related-articles block, the SHARE heading, or the author social links.
+  const relatedSection = relatedBlock.closest(':scope > div.section, div.section');
+  const shareSection = sections.find((s) => [...s.querySelectorAll('h5')]
+    .some((h) => /share this story/i.test(h.textContent || '')));
+
+  const railSections = sections.filter((s) => s === relatedSection || s === shareSection);
+  if (!railSections.length) return;
+
+  // Prose = the body sections that are not rail and not the lead title section.
+  // Keep the lead section (has the H1) full-width at the top.
+  const leadSection = sections.find((s) => s.querySelector('h1'));
+  const proseSections = sections.filter(
+    (s) => !railSections.includes(s) && s !== leadSection,
+  );
+  if (!proseSections.length) return;
+
+  // Build the two-column grid: [prose column][rail column].
+  const grid = document.createElement('div');
+  grid.className = 'article-layout';
+  const proseCol = document.createElement('div');
+  proseCol.className = 'article-layout-body';
+  const railCol = document.createElement('div');
+  railCol.className = 'article-layout-rail';
+
+  // Position the grid directly after the lead (H1) section so the title/byline
+  // always stays full-width above the two columns — the lead section's position
+  // in document order varies across pages (sometimes last), so anchor to it
+  // explicitly rather than to the first prose section.
+  if (leadSection) {
+    leadSection.after(grid);
+  } else {
+    proseSections[0].before(grid);
+  }
+  proseSections.forEach((s) => proseCol.append(s));
+  railSections.forEach((s) => railCol.append(s));
+  grid.append(proseCol, railCol);
+}
+
+/**
+ * FAQ pages place the "Need more help?" follow-up in a right rail beside the
+ * FAQ content column (source: content 748px at x=152, rail 291px at x=1011).
+ * Unlike the article template these arrive as sibling *wrappers* inside one
+ * `.accordion-faq` section, so wrap them into a two-column grid: left column =
+ * everything except the help block (intro + accordion), right rail = the
+ * trailing default-content block that leads with the "Need more help?" heading.
+ *
+ * Detected only on FAQ pages (identified by an accordion-faq block). Styled in
+ * styles.css under `.faq-layout`.
+ * @param {Element} main The main element
+ */
+function decorateFaqLayout(main) {
+  const accordion = main.querySelector('.accordion-faq');
+  if (!accordion) return; // not an FAQ page
+  const section = accordion.closest('div.section');
+  if (!section) return;
+
+  const wrappers = [...section.children];
+  // Rail = the default-content-wrapper that leads with the "Need more help?"
+  // heading. Everything else stays in the left column.
+  const railWrapper = wrappers.find((w) => {
+    const h = w.querySelector('h2, h3, h4');
+    return h && /need more help/i.test(h.textContent || '');
+  });
+  if (!railWrapper) return;
+
+  // A divider-wrapper is only meaningful in a single-column stack; in the
+  // two-column layout the rail separates itself, so drop it.
+  wrappers.filter((w) => w.classList.contains('divider-wrapper')).forEach((w) => w.remove());
+
+  const bodyWrappers = wrappers.filter(
+    (w) => w !== railWrapper && !w.classList.contains('divider-wrapper'),
+  );
+  if (!bodyWrappers.length) return;
+
+  const grid = document.createElement('div');
+  grid.className = 'faq-layout';
+  const bodyCol = document.createElement('div');
+  bodyCol.className = 'faq-layout-body';
+  const railCol = document.createElement('div');
+  railCol.className = 'faq-layout-rail';
+
+  bodyWrappers[0].before(grid);
+  bodyWrappers.forEach((w) => bodyCol.append(w));
+  railCol.append(railWrapper);
+  grid.append(bodyCol, railCol);
+}
+
+/**
+ * Strips the `.html` extension from internal links. The migrated WKND content
+ * carries source-style links like `/us/en/adventures.html`, but EDS serves
+ * pages at extensionless paths, so those links would 404. Rewrites in place;
+ * leaves external links and non-page assets untouched.
+ * @param {Element} main The main element
+ */
+function decorateLinks(main) {
+  main.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (!href) return;
+    try {
+      const url = new URL(href, window.location.href);
+      // same-origin page links ending in .html -> drop the extension
+      if (url.origin === window.location.origin && url.pathname.endsWith('.html')) {
+        url.pathname = url.pathname.slice(0, -'.html'.length);
+        a.setAttribute('href', url.pathname + url.search + url.hash);
+      }
+    } catch (e) {
+      // ignore malformed hrefs (e.g. "#", "mailto:")
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -151,8 +314,12 @@ export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  decorateSectionMetadata(main);
   decorateBlocks(main);
   decorateButtons(main);
+  decorateLinks(main);
+  decorateArticleLayout(main);
+  decorateFaqLayout(main);
 }
 
 /**

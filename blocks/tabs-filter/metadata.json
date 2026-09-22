@@ -1,0 +1,10 @@
+{
+  "variantName": "tabs-filter",
+  "baseBlock": "tabs",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Compact horizontal bar of category filter pills (e.g. All, Climbing, Cycling, Skiing, Surfing, Travel). The active filter is highlighted. Sits above an adjacent listing grid.",
+  "contentPattern": "One row per category. Each row's first cell is the category label.",
+  "usage": "Category filter bar above a card listing on a listing/index page.",
+  "options": [],
+  "memberVariantIds": ["tabs-filter"]
+}

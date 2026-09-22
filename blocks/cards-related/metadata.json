@@ -1,0 +1,10 @@
+{
+  "variantName": "cards-related",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Compact image-less vertical list of related-story items, each with a bold uppercase linked title and a date, separated by thin dividers. Typically a sidebar.",
+  "contentPattern": "One row per related item. Each row has a text cell with a linked title and a date.",
+  "usage": "Related-stories / up-next sidebar list on article pages.",
+  "options": [],
+  "memberVariantIds": ["cards-related"]
+}

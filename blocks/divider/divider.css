@@ -1,0 +1,31 @@
+/* Divider block — horizontal rule between content.
+   Default: full-width 1px light hairline (#ebebeb), matching the site's
+   existing FAQ / members-only separators. */
+.divider {
+  margin: 40px 0;
+
+  /* If the divider lands inside a flex/grid container (e.g. the members-only
+     region), span the full row so its rule doesn't collapse to zero width. */
+  flex: 1 0 100%;
+  width: 100%;
+}
+
+.divider .divider-rule {
+  border: 0;
+  border-top: 1px solid #ebebeb;
+  margin: 0;
+  height: 0;
+  width: 100%;
+}
+
+/* accent variant — short WKND-yellow rule (like the section-title underline) */
+.divider.accent .divider-rule {
+  width: 84px;
+  border-top-width: 2px;
+  border-top-color: var(--accent-color);
+}
+
+/* spacing variant — whitespace only, no visible line */
+.divider.spacing .divider-rule {
+  border-top-color: transparent;
+}

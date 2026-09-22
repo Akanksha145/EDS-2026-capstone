@@ -1,3 +1,5 @@
+@import url('brand.css');
+
 /*
  * Copyright 2020 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -11,46 +13,21 @@
  */
 
 :root {
-  /* colors */
-  --background-color: white;
-  --light-color: #f8f8f8;
-  --dark-color: #505050;
-  --text-color: #131313;
-  --link-color: #3b63fb;
-  --link-hover-color: #1d3ecf;
-
-  /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif;
-  --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
+  /* colors (see brand.css for --background-color, --text-color, --link-color, etc.) */
 
   /* body sizes */
-  --body-font-size-m: 22px;
-  --body-font-size-s: 19px;
-  --body-font-size-xs: 17px;
+  --body-font-size-m: 18px;
+  --body-font-size-s: 16px;
+  --body-font-size-xs: 14px;
 
-  /* heading sizes */
-  --heading-font-size-xxl: 55px;
-  --heading-font-size-xl: 44px;
-  --heading-font-size-l: 34px;
-  --heading-font-size-m: 27px;
-  --heading-font-size-s: 24px;
-  --heading-font-size-xs: 22px;
-
-  /* nav height */
-  --nav-height: 64px;
-}
-
-/* fallback fonts */
-@font-face {
-  font-family: roboto-condensed-fallback;
-  size-adjust: 88.82%;
-  src: local('Arial');
-}
-
-@font-face {
-  font-family: roboto-fallback;
-  size-adjust: 99.529%;
-  src: local('Arial');
+  /* heading sizes (mobile) — WKND uses one heading scale at every breakpoint,
+     so these mirror the source per-tier px (see brand.css --heading-size-*). */
+  --heading-font-size-xxl: 40px;
+  --heading-font-size-xl: 36px;
+  --heading-font-size-l: 24px;
+  --heading-font-size-m: 16px;
+  --heading-font-size-s: 14px;
+  --heading-font-size-xs: 10px;
 }
 
 @media (width >= 900px) {
@@ -60,13 +37,13 @@
     --body-font-size-s: 16px;
     --body-font-size-xs: 14px;
 
-    /* heading sizes */
-    --heading-font-size-xxl: 45px;
-    --heading-font-size-xl: 36px;
-    --heading-font-size-l: 28px;
-    --heading-font-size-m: 22px;
-    --heading-font-size-s: 20px;
-    --heading-font-size-xs: 18px;
+    /* heading sizes (desktop, from brand tokens) */
+    --heading-font-size-xxl: var(--heading-size-xxl);
+    --heading-font-size-xl: var(--heading-size-xl);
+    --heading-font-size-l: var(--heading-size-l);
+    --heading-font-size-m: var(--heading-size-m);
+    --heading-font-size-s: var(--heading-size-s);
+    --heading-font-size-xs: var(--heading-size-xs);
   }
 }
 
@@ -77,7 +54,7 @@ body {
   color: var(--text-color);
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-m);
-  line-height: 1.6;
+  line-height: var(--body-line-height);
 }
 
 body.appear {
@@ -104,11 +81,12 @@ h3,
 h4,
 h5,
 h6 {
-  margin-top: 0.8em;
-  margin-bottom: 0.25em;
+  margin-top: var(--heading-margin-top);
+  margin-bottom: var(--heading-margin-bottom);
   font-family: var(--heading-font-family);
-  font-weight: 600;
-  line-height: 1.25;
+  font-weight: 400;
+  line-height: var(--heading-line-height);
+  color: var(--text-color);
   scroll-margin: 40px;
 }
 
@@ -125,8 +103,18 @@ ol,
 ul,
 pre,
 blockquote {
-  margin-top: 0.8em;
-  margin-bottom: 0.25em;
+  margin-top: 0;
+  margin-bottom: var(--paragraph-margin-bottom);
+}
+
+/* WKND body copy has an airy 2.5 line-height (45px at 18px) */
+p {
+  line-height: var(--paragraph-line-height);
+}
+
+blockquote {
+  margin-top: 18px;
+  line-height: var(--body-line-height);
 }
 
 code,
@@ -170,6 +158,29 @@ p.button-wrapper {
   margin: 12px 0;
 }
 
+/* Standalone CTA links in default content (e.g. rail footers "All Articles",
+   "All Trips") render as WKND yellow buttons to match source. Scoped to a
+   paragraph whose only child is the link. */
+main .section .default-content-wrapper p > a:only-child:not(.button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0;
+  padding: 14px 35px;
+  background-color: var(--accent-color);
+  color: var(--accent-text-color);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+main .section .default-content-wrapper p > a:only-child:not(.button):hover {
+  background-color: var(--text-color);
+  color: var(--background-color);
+}
+
 a.button:any-link,
 button.button {
   box-sizing: border-box;
@@ -179,11 +190,14 @@ button.button {
   max-width: 100%;
   margin: 0;
   border: 2px solid transparent;
-  border-radius: 2.4em;
-  padding: 0.5em 1.2em;
-  font: inherit;
-  font-weight: 500;
+  border-radius: 0;
+  padding: 14px 35px;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
   line-height: 1.25;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
   overflow: hidden;
@@ -199,18 +213,18 @@ button.button:disabled {
 
 a.button.primary,
 button.button.primary {
-  border-color: var(--text-color);
-  background-color: var(--text-color);
-  color: var(--background-color);
+  border-color: var(--accent-color);
+  background-color: var(--accent-color);
+  color: var(--accent-text-color);
 }
 
 a.button.primary:hover,
 a.button.primary:focus-visible,
 button.button.primary:hover,
 button.button.primary:focus-visible {
-  border-color: var(--dark-color);
-  background-color: var(--dark-color);
-  color: var(--light-color);
+  border-color: var(--text-color);
+  background-color: var(--text-color);
+  color: var(--background-color);
 }
 
 a.button.primary[aria-disabled="true"],
@@ -251,20 +265,21 @@ button.button.secondary:disabled:focus-visible {
   color: var(--dark-color);
 }
 
-/* high-impact call-to-action */
+/* high-impact call-to-action — WKND yellow */
 a.button.accent,
 button.button.accent {
-  border-color: var(--link-color);
-  background-color: var(--link-color);
-  color: var(--background-color);
+  border-color: var(--accent-color);
+  background-color: var(--accent-color);
+  color: var(--accent-text-color);
 }
 
 a.button.accent:hover,
 a.button.accent:focus-visible,
 button.button.accent:hover,
 button.button.accent:focus-visible {
-  border-color: var(--link-hover-color);
-  background-color: var(--link-hover-color);
+  border-color: var(--text-color);
+  background-color: var(--text-color);
+  color: var(--background-color);
 }
 
 a.button.accent[aria-disabled="true"],
@@ -316,10 +331,239 @@ main > .section:first-of-type {
   }
 }
 
+/* Section titles: WKND signature half-width yellow underline beneath default
+   content headings (e.g. "Recent Articles", "Next Adventures"). */
+main .section .default-content-wrapper h2,
+main .section .default-content-wrapper h3 {
+  margin-bottom: 24px;
+}
+
+main .section .default-content-wrapper h2::after,
+main .section .default-content-wrapper h3::after {
+  content: '';
+  display: block;
+  width: 84px;
+  margin-top: 12px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
 /* section metadata */
 main .section.light,
-main .section.highlight {
+main .section.highlight,
+main .section.featured {
   background-color: var(--light-color);
   margin: 0;
   padding: 40px 0;
+}
+
+main .section.dark {
+  background-color: var(--dark-color);
+  color: var(--background-color);
+  margin: 0;
+  padding: 40px 0;
+}
+
+main .section.dark h1,
+main .section.dark h2,
+main .section.dark h3,
+main .section.dark h4,
+main .section.dark h5,
+main .section.dark h6 {
+  color: var(--background-color);
+}
+
+/* Article (magazine) template.
+   There is no template metadata / body class, and the related-stories
+   list (.cards-related) only ever appears on magazine article pages,
+   so :has(.cards-related-container) is used as an article-only hook.
+   This keeps every rule below OFF home / listing / profile / faq etc.
+   Targets measured from wknd.site/us/en/magazine/arctic-surfing.html
+   at 1440x900.
+   Prose column: source constrains the article body to a 776px column
+   with justified body copy (source x=138 w=776, text-align justify).
+   decorateArticleLayout() (scripts.js) wraps the prose sections and the
+   SHARE + related rail into `.article-layout`, a two-column grid matching
+   source (776px prose + 97px gap + 291px rail, top-aligned). */
+body:has(.cards-related-container) main .section .default-content-wrapper {
+  max-width: 776px;
+}
+
+/* Lead section (H1 + byline) sits above the two-column grid and must left-align
+   to the same edge as the prose column (the grid is a centered 1164px block, so
+   its left edge = the centered-block inset), not center in the 1200px section. */
+body:has(.cards-related-container) main > .section:first-of-type > .default-content-wrapper {
+  margin-left: max(0px, calc((100% - 1164px) / 2));
+  margin-right: auto;
+  padding-left: 0;
+}
+
+/* Author-bio separator: source shows an <hr> rule above the "Jacob Wester"
+   author block (the h2 name + role that ends the prose). Render it as a
+   top border on the avatar paragraph that leads the author block. */
+body:has(.cards-related-container) main .article-layout-body .default-content-wrapper > p:has(+ h2 + p:last-child) {
+  border-top: 1px solid #ebebeb;
+  padding-top: 36px;
+  margin-top: 36px;
+}
+
+/* Two-column article grid: prose left, SHARE+related rail right.
+   Source geometry (1440px): content area 1164px = 776 + 97 gap + 291.
+   Built by decorateArticleLayout(); collapses to a single column on
+   narrow viewports. */
+main .article-layout {
+  display: grid;
+  grid-template-columns: 776px 291px;
+  gap: 0 97px;
+  max-width: 1164px;
+  margin: 0 auto;
+}
+
+main .article-layout .article-layout-body,
+main .article-layout .article-layout-rail {
+  min-width: 0;
+}
+
+/* Rail sections shed the full-width section chrome so they stack compactly
+   at the top of the right column. */
+main .article-layout .article-layout-rail > .section {
+  padding: 0;
+  margin: 0 0 24px;
+  max-width: none;
+}
+
+main .article-layout .article-layout-body > .section {
+  padding: 0;
+}
+
+/* Single column below the two-column breakpoint. */
+@media (width < 900px) {
+  main .article-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+    max-width: 776px;
+  }
+}
+
+/* Reusable "narrow" section style (applied via section-metadata Style=narrow,
+   decorated onto the section as .narrow by decorateSectionMetadata). Constrains
+   the section's content to a ~776px LEFT-aligned column instead of the default
+   centered 1200px box — the FAQ template uses it (source content x=138 w=776,
+   hero 748px). The left edge stays aligned with every other page: left margin =
+   the default centered 1200px box's left inset (½ the leftover beyond 1200px),
+   clamped to the 32px section padding on narrow viewports; right margin auto
+   absorbs the slack. */
+/* stylelint-disable-next-line no-descending-specificity */
+main .section.narrow > .default-content-wrapper,
+main .section.narrow > div[class$='-wrapper'] {
+  max-width: 776px;
+  margin-left: max(0px, calc((100% - 1200px) / 2));
+  margin-right: auto;
+}
+
+/* Images inside a narrow section cap at 748px (they sit in the narrow column). */
+main .section.narrow .default-content-wrapper p:has(> picture) img,
+main .section.narrow .default-content-wrapper p:has(> img) img {
+  max-width: 748px;
+  height: auto;
+}
+
+/* FAQ two-column layout: FAQ content (intro + accordion) on the left, the
+   "Need more help?" follow-up in a right rail — matching source (content 748px
+   at x=152, rail 291px at x=1011). Built by decorateFaqLayout(); left-aligned
+   to the same edge as every other page, collapses to one column < 900px.
+   The grid replaces the .narrow single-column treatment for these wrappers,
+   so its columns override the narrow max-width. */
+main .section.narrow > .faq-layout {
+  display: grid;
+  grid-template-columns: 748px 291px;
+  gap: 0 97px;
+  max-width: 1164px;
+  margin-left: max(0px, calc((100% - 1200px) / 2));
+  margin-right: auto;
+}
+
+main .section.narrow > .faq-layout > .faq-layout-body,
+main .section.narrow > .faq-layout > .faq-layout-rail {
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+}
+
+/* the wrappers inside the columns fill their column (cancel .narrow's 776px) */
+/* stylelint-disable-next-line no-descending-specificity */
+main .section.narrow > .faq-layout .default-content-wrapper,
+main .section.narrow > .faq-layout .accordion-faq-wrapper {
+  max-width: none;
+  margin: 0;
+}
+
+/* Align the rail's "Need more help?" heading with the body's FAQs H1 baseline.
+   The H1 carries a 60px top margin; match it on the rail's first heading so the
+   two headings sit on the same line (the rail heading otherwise starts higher
+   with its default 36px h3 margin). */
+main .section.narrow > .faq-layout > .faq-layout-rail > .default-content-wrapper > :first-child {
+  margin-top: 60px;
+}
+
+@media (width < 900px) {
+  main .section.narrow > .faq-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-width: 776px;
+  }
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+body:has(.cards-related-container) main .section .default-content-wrapper p {
+  text-align: justify;
+}
+
+/* Byline "By Jacob Wester" (h4) + "SHARE THIS STORY" (h5): source is
+   Source Sans Pro 600 UPPERCASE, not the Asar serif the global h4/h5
+   rules leak in (source byline 16/24, share 14/21). */
+body:has(.cards-related-container) main .section .default-content-wrapper h4,
+body:has(.cards-related-container) main .section .default-content-wrapper h5 {
+  font-family: var(--body-font-family);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Author bio — the last three items of the prose column: an avatar <p>,
+   the name <h2> and the role <p>. Targeted with :has() so the section
+   headings above (The front, Clear skies…) are left untouched. */
+
+/* name — source Asar 24/36, tight margins (0 / 4px), NOT the 36/54 h2 */
+body:has(.cards-related-container) main .section .default-content-wrapper h2:has(+ p:last-child) {
+  margin: 0 0 4px;
+  font-size: var(--heading-size-l);
+  line-height: 36px;
+}
+
+/* role "Skater, Writer" — source Source Sans Pro 12/30, 400, UPPERCASE,
+   grey rgb(105 105 105) (ours was 18px dark mixed-case). Scoped to the
+   p that directly follows the author name h2 so it never catches the
+   social-links wrapper's last paragraph. */
+/* stylelint-disable-next-line no-descending-specificity */
+body:has(.cards-related-container) main .section .default-content-wrapper h2 + p:last-child {
+  margin: 0 0 13.5px;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  line-height: 30px;
+  color: rgb(105 105 105);
+  text-transform: uppercase;
+}
+
+/* avatar — source 60x60 circular (object-fit cover), floated left with
+   the name/role sitting beside it (source avatar x=152, name x=237). */
+body:has(.cards-related-container) main .section .default-content-wrapper > p:has(+ h2 + p:last-child) {
+  float: left;
+  margin: 7px 25px 7px 0;
+  line-height: 0;
+}
+
+body:has(.cards-related-container) main .section .default-content-wrapper > p:has(+ h2 + p:last-child) img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
 }

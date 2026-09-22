@@ -1,0 +1,10 @@
+{
+  "variantName": "divider",
+  "baseBlock": "divider",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "A horizontal rule separating content. Default is a full-width 1px light-grey (#ebebeb) hairline; an accent variant renders a short WKND-yellow 2px rule; a spacing variant is invisible (whitespace only).",
+  "contentPattern": "Empty block — no authored cells. The block presence renders the rule.",
+  "usage": "Visual separator between page regions (e.g. between a content list and a follow-up block). Use instead of a bare <hr>, which EDS treats as a section boundary rather than a visible line.",
+  "options": ["accent", "spacing"],
+  "memberVariantIds": ["divider"]
+}

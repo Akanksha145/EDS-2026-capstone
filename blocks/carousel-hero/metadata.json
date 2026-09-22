@@ -1,0 +1,15 @@
+{
+  "variantName": "carousel-hero",
+  "baseBlock": "carousel",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Full-bleed photographic slides with a light content card overlaid at the lower area of each slide. Dot indicators centered at the bottom and prev/next circular navigation controls. Rotating multi-slide banner.",
+  "contentPattern": "One row per slide. First cell is the slide background image; second cell is the slide content (heading, description, single CTA link).",
+  "usage": "Hero-style rotating banner at the top of a page with per-slide image, text, and call-to-action.",
+  "options": [],
+  "memberVariantIds": ["carousel-hero"],
+  "usage": {
+    "pagesUsing": ["/ca/en/adventures/bali-surf-camp"],
+    "reuseCount": 1,
+    "lastUsed": "2026-09-17"
+  }
+}

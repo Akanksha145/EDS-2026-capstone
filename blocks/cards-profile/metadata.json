@@ -1,0 +1,10 @@
+{
+  "variantName": "cards-profile",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Responsive grid of centered profile cards. Each card has a circular avatar image, a name, a role/subtitle, and a centered row of social-media icon links.",
+  "contentPattern": "One row per person. Each card has an image cell (avatar) and a content cell holding the name (heading), role/subtitle (heading), and a set of social links.",
+  "usage": "Team, contributor, or guide grids where each item is a person with a photo, name, role, and social links.",
+  "options": [],
+  "memberVariantIds": ["cards-profile"]
+}
