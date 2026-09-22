@@ -19,15 +19,21 @@ export default function decorate(block) {
         }
       }
 
-      // Give generic CTA links (e.g. "Read More") a descriptive accessible name
-      // derived from the teaser heading in the same column, so the visible text
-      // stays on-design while screen readers / audits get context.
+      // Give generic CTA links (e.g. "Read More") descriptive text derived from
+      // the teaser heading in the same column. Appended as a visually-hidden
+      // span so the visible text stays on-design ("Read More"), while the link's
+      // accessible name — and its innerText, which SEO/link-text audits read —
+      // becomes "Read More about {title}". A bare aria-label is insufficient
+      // here: the link-text audit inspects innerText only and ignores it.
       const heading = col.querySelector('h1, h2, h3, h4, h5, h6');
       if (heading) {
         const title = heading.textContent.trim();
         col.querySelectorAll('a').forEach((a) => {
-          if (!a.hasAttribute('aria-label') && GENERIC_LINK_TEXT.test(a.textContent.trim())) {
-            a.setAttribute('aria-label', `${a.textContent.trim()} about ${title}`);
+          if (!a.querySelector('.sr-only') && GENERIC_LINK_TEXT.test(a.textContent.trim())) {
+            const sr = document.createElement('span');
+            sr.className = 'sr-only';
+            sr.textContent = ` about ${title}`;
+            a.append(sr);
           }
         });
       }
