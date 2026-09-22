@@ -8,13 +8,13 @@ import { loadFragment } from '../fragment/fragment.js';
 export default async function decorate(block) {
   // load footer as fragment. If a `footer` metadata override is set, use it.
   // Otherwise resolve locale-aware: a per-site footer (/{cc}/{ll}/footer, e.g.
-  // the Canada-specific footer) with a global /footer fallback. /content first
-  // for localhost/aem-up, then root for DA/EDS production.
+  // the Canada-specific footer) with a global /footer fallback. Root first
+  // (DA/EDS prod + aem up both serve it), /content as a fallback.
   const footerMeta = getMetadata('footer');
   let fragment = null;
   if (footerMeta) {
     const p = new URL(footerMeta, window.location).pathname;
-    fragment = await loadFragment(`/content${p}`) || await loadFragment(p);
+    fragment = await loadFragment(p) || await loadFragment(`/content${p}`);
   } else {
     const m = window.location.pathname.match(/^\/([a-z]{2})\/([a-z]{2})(?:\/|$)/);
     const loc = m ? `/${m[1]}/${m[2]}` : '';
@@ -23,7 +23,7 @@ export default async function decorate(block) {
     paths.push('/footer');
     for (let i = 0; i < paths.length && !fragment; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      fragment = await loadFragment(`/content${paths[i]}`) || await loadFragment(paths[i]);
+      fragment = await loadFragment(paths[i]) || await loadFragment(`/content${paths[i]}`);
     }
   }
 
@@ -34,13 +34,13 @@ export default async function decorate(block) {
 
   // Fragment image paths are relative to the fragment location, not the current
   // page. Rewrite them so the WKND logo resolves regardless of page depth:
-  // /content first (localhost / aem up), then root (DA/EDS prod) as a fallback.
+  // Root first (DA/EDS prod + aem up both serve it), /content as a fallback.
   footer.querySelectorAll('img[src]').forEach((img) => {
     const raw = img.getAttribute('src');
     if (raw && !/^(https?:)?\/\//.test(raw) && !raw.startsWith('/')) {
       const rel = raw.replace(/^\.?\//, '');
-      img.src = `/content/${rel}`;
-      img.addEventListener('error', () => { img.src = `/${rel}`; }, { once: true });
+      img.src = `/${rel}`;
+      img.addEventListener('error', () => { img.src = `/content/${rel}`; }, { once: true });
     }
   });
 

@@ -12,8 +12,8 @@ async function fetchNavHtml() {
   const m = window.location.pathname.match(/^\/([a-z]{2})\/([a-z]{2})(?:\/|$)/);
   const loc = m ? `/${m[1]}/${m[2]}` : '';
   const candidates = [];
-  if (loc) candidates.push(`/content${loc}/nav.plain.html`, `${loc}/nav.plain.html`);
-  candidates.push('/content/nav.plain.html', '/nav.plain.html');
+  if (loc) candidates.push(`${loc}/nav.plain.html`, `/content${loc}/nav.plain.html`);
+  candidates.push('/nav.plain.html', '/content/nav.plain.html');
   for (let i = 0; i < candidates.length; i += 1) {
     // eslint-disable-next-line no-await-in-loop
     const resp = await fetch(candidates[i]);
@@ -140,13 +140,13 @@ export default async function decorate(block) {
 
   // Fragment image paths are relative to the nav fragment location, not the
   // current page. Rewrite them so they resolve regardless of page depth.
-  // /content first (localhost / aem up), then root (DA/EDS prod) as a fallback.
+  // Root first (DA/EDS prod + aem up both serve it), /content as a fallback.
   nav.querySelectorAll('img[src]').forEach((img) => {
     const raw = img.getAttribute('src');
     if (raw && !/^(https?:)?\/\//.test(raw) && !raw.startsWith('/')) {
       const rel = raw.replace(/^\.?\//, '');
-      img.src = `/content/${rel}`;
-      img.addEventListener('error', () => { img.src = `/${rel}`; }, { once: true });
+      img.src = `/${rel}`;
+      img.addEventListener('error', () => { img.src = `/content/${rel}`; }, { once: true });
     }
   });
 
